@@ -1,0 +1,56 @@
+{
+  "name": "functions",
+  "scripts": {
+    "lint": "tslint --project tsconfig.json",
+    "build": "tsc",
+    "serve": "firebase use dev && npm run build && firebase serve --host 0.0.0.0 --only hosting,functions",
+    "serve-prod": "firebase use prod && npm run build && firebase serve --host 0.0.0.0 --only hosting,functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "logs": "firebase functions:log",
+    "config-dev": "firebase use dev",
+    "config-prod": "firebase use prod",
+    "deploy-prod": "sh ./scripts/deploy.sh prod",
+    "deploy-dev": "sh ./scripts/deploy.sh dev",
+    "deploy": "npm run deploy-dev && npm run deploy-prod",
+    "migrate-dev": "sh ./scripts/migrate.sh dev",
+    "migrate-prod": "sh ./scripts/migrate.sh prod",
+    "migrate-local": "sh ./scripts/migrate.sh local"
+  },
+  "engines": {
+    "node": "10"
+  },
+  "main": "lib/src/index.js",
+  "dependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/cors": "^2.8.9",
+    "@types/email-templates": "^8.0.0",
+    "@types/i18n": "^0.12.0",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/md5": "^2.2.1",
+    "@types/nodemailer": "^6.4.0",
+    "@types/nunjucks": "^3.1.3",
+    "axios": "^0.21.1",
+    "cors": "^2.8.5",
+    "date-fns": "^2.16.1",
+    "dotenv": "^8.2.0",
+    "firebase": "^8.2.1",
+    "email-templates": "^8.0.2",
+    "express": "^5.0.0-alpha.8",
+    "firebase-admin": "^8.13.0",
+    "firebase-functions": "^3.13.0",
+    "i18n": "^0.13.2",
+    "jsonwebtoken": "^8.5.1",
+    "md5": "^2.3.0",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.4.17",
+    "nunjucks": "^3.2.2",
+    "typeorm": "^0.2.29"
+  },
+  "devDependencies": {
+    "tslint": "^6.1.3",
+    "typescript": "^3.9.7",
+    "firebase-functions-test": "^0.2.3"
+  },
+  "private": true
+}

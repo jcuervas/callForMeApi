@@ -1,0 +1,22 @@
+{
+  "projects": {
+    "prod": "call-for-me-9b527",
+    "dev": "callforme-2020"
+  },
+  "targets": {
+    "call-for-me-9b527": {
+      "hosting": {
+        "prod": [
+          "call-for-me-9b527"
+        ]
+      }
+    },
+    "callforme-2020": {
+      "hosting": {
+        "dev": [
+          "callforme-2020"
+        ]
+      }
+    }
+  }
+}
