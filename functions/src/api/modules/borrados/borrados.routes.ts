@@ -1,5 +1,5 @@
-import {checkIfAuthenticated} from "../../../services/security.service";
 import {BorradosController} from "./borrados.controller";
+import useSecurity from "../../../services/useSecurity";
 const express = require('express');
 
 export class BorradosRoutes {
@@ -11,7 +11,7 @@ export class BorradosRoutes {
 
     private setupRoutes() {
         const router = express.Router();
-        router.use(checkIfAuthenticated)
+        router.use(useSecurity.checkIfAuthenticated)
         router.get('/', this.controller.get);
         this.app.use(this.path, router)
     }

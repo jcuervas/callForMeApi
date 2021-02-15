@@ -1,5 +1,6 @@
-import {checkIfAuthenticated} from "../../../services/security.service";
 import {AlertasController} from "./alertas.controller";
+import useSecurity from "../../../services/useSecurity";
+
 const express = require('express');
 
 export class AlertasRoutes {
@@ -11,7 +12,7 @@ export class AlertasRoutes {
 
     private setupRoutes() {
         const router = express.Router();
-        router.use(checkIfAuthenticated)
+        router.use(useSecurity.checkIfAuthenticated)
         router.get('/:id', this.controller.getById);
         router.get('/', this.controller.get);
         router.post('/', this.controller.post);

@@ -1,7 +1,7 @@
 import {connect} from "../../../services/connection";
 import {Respuesta} from "../../../entity/respuesta";
 import {BaseRepository} from "../../../repository/repository";
-import {StorageService} from "../../../services/storage.service";
+import useStorage from "../../../services/useStorage";
 
 export class RespuestasController {
 
@@ -46,7 +46,7 @@ export class RespuestasController {
     const id = req.params.id;
     const respuesta = await respuestaRepository.findById(id);
     // todo delete audio_url from bucket
-    await StorageService.deleteObjectFromBucket(respuesta.audio_url.split('/')[1]);
+    await useStorage.deleteObjectFromBucket(respuesta.audio_url.split('/')[1]);
     await respuestaRepository.delete(id);
     return res.send();
   }

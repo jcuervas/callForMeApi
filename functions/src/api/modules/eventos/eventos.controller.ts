@@ -31,21 +31,21 @@ export class EventosController {
   async post(req: any, res: any) {
     const connection = await connect();
     const eventoBaseRepository = new BaseRepository(connection, Evento);
-    const alerta = new Alerta(req.body.evento);
-    return res.json(await eventoBaseRepository.create(alerta));
+    const evento = new Evento(req.body);
+    return res.json(await eventoBaseRepository.create(evento));
   }
 
   async put(req: any, res: any) {
     const connection = await connect();
     const eventoBaseRepository = new BaseRepository(connection, Evento);
-    const alerta = new Alerta(req.body.evento);
-    return res.json(await eventoBaseRepository.update(alerta));
+    const evento = new Alerta(req.body);
+    return res.json(await eventoBaseRepository.update(evento));
   }
 
   async patch(req: any, res: any) {
     const connection = await connect();
     const eventoBaseRepository = new BaseRepository(connection, Evento);
-    return res.json(await eventoBaseRepository.patch(req.params.id, req.body.evento));
+    return res.json(await eventoBaseRepository.patch(req.params.id, req.body));
   }
 
   async delete(req: any, res: any) {

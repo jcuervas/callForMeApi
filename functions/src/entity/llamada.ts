@@ -25,7 +25,7 @@ export class Llamada {
     @JoinColumn({name: 'evento'})
     evento?: number;
 
-    @ManyToOne(() => Usuario, usuario => usuario.llamadas)
+    @ManyToOne(() => Usuario, usuario => usuario.llamadas, {onDelete: "CASCADE"})
     @JoinColumn({name: 'usuario'})
     usuario?: number;
 

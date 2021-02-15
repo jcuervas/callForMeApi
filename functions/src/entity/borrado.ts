@@ -12,7 +12,7 @@ export class Borrado {
     @CreateDateColumn({type: "datetime"}) fecha?: Date;
     @Column() tabla?: string;
 
-    @ManyToOne(() => Usuario, usuario => usuario.borrados)
+    @ManyToOne(() => Usuario, usuario => usuario.borrados, {onDelete: "CASCADE"})
     @JoinColumn({name: "usuario"})
     usuario?: number;
 

@@ -61,7 +61,7 @@ module.exports = [
     ],
     "cli": {
       "entitiesDir": "lib/src/entity",
-      "migrationsDir": "lib/src/migration"
+      "migrationsDir": "src/migration"
     }
   },
 ]

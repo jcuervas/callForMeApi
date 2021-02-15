@@ -1,5 +1,5 @@
-import {checkIfAuthenticated} from "../../../services/security.service";
 import {ConfiguracionesController} from "./configuraciones.controller";
+import useSecurity from "../../../services/useSecurity";
 const express = require('express');
 
 export class ConfiguracionesRoutes {
@@ -11,7 +11,7 @@ export class ConfiguracionesRoutes {
 
     private setupRoutes() {
         const router = express.Router();
-        router.use(checkIfAuthenticated)
+        router.use(useSecurity.checkIfAuthenticated)
         router.get('/', this.controller.get);
         router.patch('/:id', this.controller.patch);
         this.app.use(this.path, router)

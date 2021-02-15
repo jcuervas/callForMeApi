@@ -18,7 +18,7 @@ export class Evento {
     @Column({nullable: true}) cantidad_repeticion?: number;
     @UpdateDateColumn() last_update?: Date;
 
-    @ManyToOne(() => Usuario, usuario => usuario.eventos)
+    @ManyToOne(() => Usuario, usuario => usuario.eventos, {onDelete: "CASCADE"})
     @JoinColumn({name: 'usuario'})
     usuario?: number;
 

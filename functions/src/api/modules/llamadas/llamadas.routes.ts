@@ -1,5 +1,6 @@
-import {checkIfAuthenticated} from "../../../services/security.service";
 import {LlamadasController} from "./llamadas.controller";
+import useSecurity from "../../../services/useSecurity";
+
 const express = require('express');
 
 export class LlamadasRoutes {
@@ -11,7 +12,7 @@ export class LlamadasRoutes {
 
     private setupRoutes() {
         const router = express.Router();
-        router.use(checkIfAuthenticated)
+        router.use(useSecurity.checkIfAuthenticated)
         router.get('/', this.controller.get);
         router.get('/:id', this.controller.getById);
         router.post('/', this.controller.post);

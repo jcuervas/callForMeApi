@@ -2,13 +2,12 @@ import {NUM_CALLS_PER_SEC} from "../util/constants";
 import {BaseRepository} from "../repository/repository";
 import {Alerta} from "../entity/alerta";
 import {Llamada} from "../entity/llamada";
-import {sleep} from "../util/sleep";
 import {connect} from "../services/connection";
-import {EventContext} from "firebase-functions/lib/cloud-functions";
+import util from "../util/util";
 
 export class CallChecker {
 
-    static async handle(context: EventContext) {
+    static async handle() {
         const connection = await connect();
         const alertaRepository = new BaseRepository(connection, Alerta);
         const llamadaRepository = new BaseRepository(connection, Llamada);
@@ -28,7 +27,7 @@ export class CallChecker {
 
                 await alertaRepository.patch(alerta.id_alerta!, {estado: 'ENVIADA'});
                 await llamadaRepository.patch(alerta.llamada, {last_update: new Date()});
-                sleep(1);
+                util.sleep(1);
             }
             if (!hasMore) {
                 break;

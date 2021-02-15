@@ -1,10 +1,16 @@
 import * as firebase from 'firebase-admin';
 
 export type Parameter = 'numFreeGamesPerDay';
-export class FirebaseConfigService {
+const useFirebaseConfig = () => {
 
-    async getConfigValue(key: Parameter): Promise<any> {
+    async function getConfigValue(key: Parameter): Promise<any> {
         const template = await firebase.remoteConfig().getTemplate();
         return template.parameters[key].defaultValue;
     }
+
+    return {
+      getConfigValue
+    }
 }
+
+export default useFirebaseConfig();

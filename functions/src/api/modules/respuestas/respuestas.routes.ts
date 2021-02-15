@@ -1,6 +1,7 @@
-import {checkIfAuthenticated} from "../../../services/security.service";
 import {RespuestasController} from "./respuestas.controller";
+import useSecurity from "../../../services/useSecurity";
 const express = require('express');
+
 
 export class RespuestasRoutes {
     path = '/respuestas';
@@ -11,7 +12,7 @@ export class RespuestasRoutes {
 
     private setupRoutes() {
         const router = express.Router();
-        router.use(checkIfAuthenticated)
+        router.use(useSecurity.checkIfAuthenticated)
         router.get('/', this.controller.get);
         router.post('/', this.controller.post);
         router.put('/:id', this.controller.put);

@@ -4,7 +4,7 @@ import {Usuario} from "./usuario";
 @Entity({name: 'nonces'})
 export class Nonce {
     @PrimaryColumn({name: 'usuario'})
-    @OneToOne(() => Usuario)
+    @OneToOne(() => Usuario, {onDelete: "CASCADE"})
     @JoinColumn({name: 'usuario'})
     usuario: number;
 

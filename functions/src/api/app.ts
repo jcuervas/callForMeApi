@@ -1,5 +1,5 @@
 import {errorHandler} from "../services/errorHandler";
-import {API_KEY} from "../services/security.service";
+import useSecurity, {API_KEY} from "../services/useSecurity";
 import {AlertasModule} from "./modules/alertas/alertas.module";
 import {BorradosModule} from "./modules/borrados/borrados.module";
 import {UsuariosModule} from "./modules/usuario/usuario.module";
@@ -12,6 +12,7 @@ import {EmailsModule} from "./modules/emails/emails.module";
 import {RespuestasModule} from "./modules/respuestas/respuestas.module";
 import {PlivoModule} from "./modules/plivo/plivo.module";
 import {PredefinidosModule} from "./modules/predefinidos/predefinidos.module";
+import {FirebaseTokensModule} from "./modules/firebaseTokens/firebaseTokens.module";
 
 const express = require('express');
 const cors = require('cors');
@@ -34,7 +35,7 @@ class App {
         this.app.use(cors(corsOptions));
         this.app.use(errorHandler);
         this.app.set('api_key', API_KEY);
-
+        this.app.use(useSecurity.checkApiKey);
     }
 
     private initModules() {
@@ -50,6 +51,7 @@ class App {
         new EmailsModule(this.app);
         new PlivoModule(this.app);
         new PredefinidosModule(this.app);
+        new FirebaseTokensModule(this.app);
     }
 }
 

@@ -1,5 +1,6 @@
-import {checkIfAuthenticated} from "../../../services/security.service";
 import {EmailsController} from "./emails.controller";
+import useSecurity from "../../../services/useSecurity";
+
 const express = require('express');
 
 export class EmailsRoutes {
@@ -13,13 +14,11 @@ export class EmailsRoutes {
     private setupRoutes() {
         const emailsRouter = express.Router();
         const emailConfirmationRouter = express.Router();
-        emailsRouter.use(checkIfAuthenticated)
-        emailConfirmationRouter.use(checkIfAuthenticated)
-
-        emailConfirmationRouter.get('/:id', this.controller.getEmailConfirmation);
+        emailsRouter.use(useSecurity.checkIfAuthenticated)
+        emailConfirmationRouter.get('/', this.controller.getEmailConfirmation);
 
         emailsRouter.get('/', this.controller.get);
-        emailsRouter.post('/', this.controller.patch);
+        emailsRouter.post('/', this.controller.post);
 
         emailsRouter.get('/:id', this.controller.getById);
         emailsRouter.put('/:id', this.controller.put);

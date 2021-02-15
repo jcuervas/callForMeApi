@@ -29,7 +29,7 @@ export class Mensaje {
     @JoinColumn({name: 'email'})
     email: number;
 
-    @ManyToOne(() => Usuario, usuario => usuario.mensajes)
+    @ManyToOne(() => Usuario, usuario => usuario.mensajes, {onDelete: "CASCADE"})
     @JoinColumn({name: 'usuario'})
     usuario: number;
 

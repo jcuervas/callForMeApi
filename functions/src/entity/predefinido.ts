@@ -10,7 +10,7 @@ export class Predefinido {
     @Column() peso: string;
     @UpdateDateColumn() last_update?: Date;
 
-    @ManyToOne(() => Usuario, usuario => usuario.predefinidos)
+    @ManyToOne(() => Usuario, usuario => usuario.predefinidos, {onDelete: "CASCADE"})
     @JoinColumn({name: 'usuario'})
     usuario: number;
 

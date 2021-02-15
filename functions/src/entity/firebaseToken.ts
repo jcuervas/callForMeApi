@@ -5,7 +5,7 @@ import {Usuario} from "./usuario";
 export class FirebaseToken {
     @PrimaryColumn() device: string;
 
-    @OneToOne(() => Usuario, {nullable: false})
+    @OneToOne(() => Usuario, {nullable: true, onDelete: "SET NULL"})
     @JoinColumn({name: 'usuario'})
     usuario?: number;
 
@@ -13,7 +13,7 @@ export class FirebaseToken {
     token: string;
 
     constructor(props: any = {}) {
-        this.usuario = props.usuario;
+        this.usuario = props.usuario ? props.usuario : null;
         this.token = props.token;
         this.device = props.device;
     }

@@ -1,5 +1,5 @@
-import {checkIfAuthenticated} from "../../../services/security.service";
 import {EventosController} from "./eventos.controller";
+import useSecurity from "../../../services/useSecurity";
 
 const express = require('express');
 
@@ -12,7 +12,7 @@ export class EventosRoutes {
 
   private setupRoutes() {
     const router = express.Router();
-    router.use(checkIfAuthenticated)
+    router.use(useSecurity.checkIfAuthenticated)
     router.get('/', this.controller.get);
     router.get('/:id', this.controller.get);
     router.post('/', this.controller.post);

@@ -7,6 +7,7 @@ export class AdminSdk {
     firebaseApp?: firebase.app.App;
 
     initializeApp(): admin.app.App {
+      console.log({app: this.app});
         if (!this.app) {
             this.app = admin.initializeApp({
                 credential: admin.credential.cert(configuration.serviceAccount)

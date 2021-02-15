@@ -29,15 +29,15 @@ export class BaseRepository<T> {
     return queryBuilder.getMany();
   }
 
-  findOneByQuery(query: any = {}, limit: number = 0): Promise<T | undefined> {
+  findOneByQuery(query: any = {}, relations: string[] = []): Promise<T> {
     const queryBuilder = this.repository.createQueryBuilder('a');
     Object.keys(query).forEach(q => {
       queryBuilder.andWhere(`a.${q} = :${q}`).setParameter(q, query[q])
     })
-    if (limit) {
-      queryBuilder.take(limit);
-    }
-    return queryBuilder.getOne();
+    relations.forEach( rel => {
+      queryBuilder.leftJoinAndSelect(`a.${rel}`, rel);
+    });
+    return queryBuilder.getOneOrFail();
   }
 
   async create(type: T): Promise<T> {

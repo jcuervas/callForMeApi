@@ -18,7 +18,7 @@ export class Respuesta {
     @JoinColumn({name: 'alerta'})
     alerta: number;
 
-    @ManyToOne(() => Usuario, usuario => usuario.respuestas)
+    @ManyToOne(() => Usuario, usuario => usuario.respuestas, {onDelete: "CASCADE"})
     @JoinColumn({name: 'usuario'})
     usuario: number;
 

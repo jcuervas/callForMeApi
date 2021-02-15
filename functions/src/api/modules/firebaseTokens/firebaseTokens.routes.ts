@@ -1,9 +1,10 @@
-import {checkIfAuthenticated} from "../../../services/security.service";
 import {FirebaseTokensController} from "./firebaseTokens.controller";
+import useSecurity from "../../../services/useSecurity";
+
 const express = require('express');
 
 export class FirebaseTokensRoutes {
-  path = '/Firebasetokens';
+  path = '/firebaseTokens';
 
   constructor(private app: any, private controller: FirebaseTokensController) {
     this.setupRoutes()
@@ -11,10 +12,9 @@ export class FirebaseTokensRoutes {
 
   private setupRoutes() {
     const router = express.Router();
-    router.use(checkIfAuthenticated)
-    router.get('/', this.controller.get);
-    router.get('/:device', this.controller.get);
-    router.post('/', this.controller.post);
+    this.app.get(this.path, this.controller.get);
+    this.app.post(this.path, this.controller.post);
+    router.use(useSecurity.checkIfAuthenticated)
     router.put('/:device', this.controller.put);
     router.patch('/:device', this.controller.patch);
     router.delete('/:device', this.controller.delete);

@@ -7,11 +7,11 @@ export class Email {
     @PrimaryGeneratedColumn({name: "id_email"})
     id_email?: number;
     @Column() direccion: string;
-    @Column() estado: string;
-    @Column() identificador: string;
+    @Column() estado: 'NO_CONFIRMADO'|'ACTIVADO';
+    @Column({default: ''}) identificador: string;
     @UpdateDateColumn() last_update?: Date;
 
-    @ManyToOne(() => Usuario, usuario => usuario.emails)
+    @ManyToOne(() => Usuario, usuario => usuario.emails, {onDelete: "CASCADE"})
     @JoinColumn({name: 'usuario'})
     usuario: number;
 

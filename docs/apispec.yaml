@@ -1,0 +1,459 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Call for me Api
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:5000/api/
+    description: local environment
+  - url: https://callforme-2020.web.app
+    description: staging environment
+  - url: https://call-for-me-9b527.web.app
+    description: production environment
+paths:
+  /auth/createUserWithEmailAndPassword/:
+    post:
+      summary: Create a new user
+      operationId: createUser
+      tags:
+        - create
+        - user
+      responses:
+        "200":
+          $ref: "#/components/responses/CreateUserResponse"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  /auth/verifyEmailActivationLink/:
+    get:
+      summary: Verify email activation
+      operationId: verifyEmailActivation
+      tags:
+        - user
+        - activation
+        - email
+      parameters:
+        - name: oobCode
+          in: query
+          required: true
+          description: Code provided by google to activate account
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOk"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  /auth/sendPasswordResetEmail/:
+    get:
+      summary: Send an email to reset user password
+      operationId: sendPasswordResetEmail
+      tags:
+        - user
+        - password
+        - reset
+      parameters:
+        - name: email
+          in: query
+          description: user email
+          required: true
+          schema:
+            type: string
+            format: email
+      responses:
+        "200":
+          $ref: "#/components/schemas/ResponseOk"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  /auth/manageResetPassword/:
+    post:
+      summary: Request sent by wordpress page to reset password of a user
+      operationId: manageResetPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                oobCode:
+                  type: string
+                password:
+                  type: string
+                  format: password
+      tags:
+        - auth
+        - reset
+        - password
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOk"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+  /categories/:
+    get:
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          $ref: "#/components/responses/GameCategoriesArrayResponse"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    post:
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                categories:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/GameCategory"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOk"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  /games/:
+    get:
+      security:
+        - BearerAuth: [ ]
+      responses:
+        "200":
+          $ref: "#/components/responses/GamesArrayResponse"
+        "401":
+          $ref: "#/components/responses/NotAuthorizedError"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    post:
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                games:
+                  $ref: "#/components/schemas/Games"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOk"
+        "401":
+          $ref: "#/components/responses/NotAuthorizedError"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  /games/gamePlayed/:
+    post:
+
+  /receipt/android/{uid}:
+    get:
+  /receipt/ios/{uid}:
+    post:
+  /users/:
+    get:
+
+  /mailchimp/audience/:
+    get:
+  /mailchimp/audience/{id}:
+    get:
+  /mailchimp/audience/{id}/member/{email}:
+    get:
+  /mailchimp/audience/{id}/member/{email}/tags/:
+    post:
+  /mailchimp/audience/{id}/{email}:
+    patch:
+
+  /remoteConfig/{key}:
+    get:
+
+  /wordpress/posts/:
+    get:
+  /wordpress/posts/{post}:
+    get:
+  /wordpress/pages/:
+    get:
+  /wordpress/pages/{page}/:
+    get:
+  /wordpress/post/{media}/:
+    get:
+  /wordpress/media/{media}:
+    get:
+components:
+  schemas:
+    Alerta:
+      type: object
+      properties:
+        additionalUserInfo:
+          type: object
+        credential:
+          type: object
+        operationType:
+          type: string
+        user:
+          $ref: "#/components/schemas/FirebaseUser"
+    Borrado:
+      type: object
+      properties:
+        uid:
+          type: string
+        email:
+          type: string
+          format: email
+    Configuracion:
+      type: object
+      required:
+        - id
+        - email
+        - firebaseId
+        - super
+      properties:
+        id:
+          type: integer
+          format: int64
+        email:
+          type: string
+          format: email
+        firebaseId:
+          type: string
+        super:
+          type: boolean
+    ConfirmationToken:
+      type: object
+      required:
+      properties:
+        id:
+          type: integer
+          format: int64
+    Email:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        user:
+          type: integer
+          format: int64
+        name:
+          type: string
+        birth:
+          type: string
+          format: date
+        rewards:
+          $ref: "#/components/schemas/ChildRewards"
+    Evento:
+      type: array
+      items:
+        $ref: "#/components/schemas/Child"
+    FirebaseToken:
+      type: object
+      properties:
+        vehicle:
+          type: object
+          properties:
+            current:
+              type: integer
+            unlocked:
+              type: array
+              items:
+                type: integer
+        costume:
+          type: object
+          properties:
+            current:
+              type: integer
+            unlocked:
+              type: array
+              items:
+                type: integer
+    Llamada:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        type:
+          type: string
+        urlInside:
+          type: string
+        urlOver:
+          type: string
+        character:
+          type: string
+    Mensaje:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        type:
+          type: string
+        color:
+          type: string
+        position:
+          type: string
+        url:
+          type: string
+    Predefinido:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        url:
+          type: string
+    Recordatorio:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        character:
+          type: string
+        costume:
+          $ref: "#/components/schemas/Costume"
+        url:
+          type: string
+    Respuesta:
+      type: object
+      required:
+        - id
+        - language_code
+        - title
+        - description
+        - active
+        - name
+        - category
+        - level
+        - childAge
+      properties:
+        id:
+          type: integer
+          format: int64
+        language_code:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        active:
+          type: boolean
+        name:
+          type: string
+        category:
+          type: integer
+        level:
+          type: integer
+        childAge:
+          type: object
+          properties:
+            min:
+              type: integer
+            max:
+              type: integer
+    Usuario:
+      type: array
+      items:
+        $ref: "#/components/schemas/Game"
+    ResponseOk:
+      type: object
+      description: Response ok
+      properties:
+        statusCode:
+          type: integer
+          enum: [200, 201]
+        message:
+          type: string
+    Error:
+      type: object
+      description: Error at request
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          enum: [500]
+        message:
+          type: string
+    AuthError:
+      type: object
+      description: Request not authorized
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          enum: [400, 401, 403]
+        message:
+          type: string
+    NotFoundError:
+      type: object
+      description: Object not found
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          enum: [404]
+        message:
+          type: string
+  responses:
+    UsuarioResponse:
+      description: Response with user credential and custom token
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userCredential:
+                $ref: "#/components/schemas/UserCredential"
+              customToken:
+                type: string
+    UsuarioArrayResponse:
+      description: User object response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+    AlertaResponse:
+      description: Child object response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Child"
+    AlertaArrayResponse:
+      description: Children array response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Children"
+    ErrorResponse:
+      description: There was an error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotAuthorizedError:
+      description: Not authorized
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AuthError"
+    ResponseOk:
+      description: Response Ok
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ResponseOk"
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
