@@ -20,6 +20,7 @@ export class AuthController {
     }
     const user = await userRepository.findOneByQuery({username, password})
     if (!user) return res.status(404).send("User not found or password wrong");
+    console.log({user});
     const access_token = jwt.sign({check: true}, App.app.get('api_key'), {
       expiresIn: 36000
     });

@@ -13,6 +13,7 @@ import {RespuestasModule} from "./modules/respuestas/respuestas.module";
 import {PlivoModule} from "./modules/plivo/plivo.module";
 import {PredefinidosModule} from "./modules/predefinidos/predefinidos.module";
 import {FirebaseTokensModule} from "./modules/firebaseTokens/firebaseTokens.module";
+import {StripeModule} from "./modules/stripe/stripe.module";
 
 const express = require('express');
 const cors = require('cors');
@@ -52,6 +53,7 @@ class App {
         new PlivoModule(this.app);
         new PredefinidosModule(this.app);
         new FirebaseTokensModule(this.app);
+        new StripeModule(this.app);
     }
 }
 

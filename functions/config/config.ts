@@ -3,16 +3,17 @@ import * as path from "path";
 interface configuration {
   apiUrl: string;
   mailConfig: {
-    host: string,
-    port: number,
-    sender: string,
+    host: string;
+    port: number;
+    sender: string;
     auth: {
-      user: string,
-      pass: string
+      user: string;
+      pass: string;
     }
-    senderToShow: string
+    senderToShow: string;
   },
-  serviceAccount: string
+  serviceAccount: string;
+  stripeApiKey: string;
 }
 
 interface environments {
@@ -33,7 +34,8 @@ export const config: environments = {
       },
       senderToShow: 'Call for me'
     },
-    serviceAccount: path.join(__dirname,'../../service_account.json')
+    serviceAccount: path.join(__dirname,'../../service_account.json'),
+    stripeApiKey: process.env.STRIPE_API_KEY as string
   },
   dev: {
     apiUrl: 'https://callforme-2020.web.app',
@@ -47,7 +49,8 @@ export const config: environments = {
       },
       senderToShow: 'Call for me'
     },
-    serviceAccount: path.join(__dirname,'../../service_account_dev.json')
+    serviceAccount: path.join(__dirname,'../../service_account_dev.json'),
+    stripeApiKey: process.env.STRIPE_API_KEY_DEV as string
   },
   local: {
     apiUrl: 'https://callforme-2020.web.app',
@@ -61,6 +64,7 @@ export const config: environments = {
       },
       senderToShow: 'Call for me'
     },
-    serviceAccount: path.join(__dirname,'../../service_account_dev.json')
+    serviceAccount: path.join(__dirname,'../../service_account_dev.json'),
+    stripeApiKey: process.env.STRIPE_API_KEY_DEV as string
   }
 }

@@ -4,7 +4,7 @@ import {Llamada} from "../../../entity/llamada";
 import {Borrado} from "../../../entity/borrado";
 
 export class LlamadasController {
-  
+
   async get(req: any, res: any) {
     const connection = await connect();
     const llamadaRepository = new BaseRepository(connection, Llamada);
@@ -22,6 +22,7 @@ export class LlamadasController {
     const connection = await connect();
     const llamadaRepository = new BaseRepository(connection, Llamada);
     const {id} = req.params;
+    console.log({id, params: req.params});
     let llamada: Llamada;
     llamada = await llamadaRepository.findById(id);
     return res.json({llamada});

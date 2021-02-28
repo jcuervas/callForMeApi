@@ -21,7 +21,7 @@ export class Llamada {
     @Column() num_intentos?: number;
 
 
-    @ManyToOne(() => Evento, evento => evento.llamadas)
+    @ManyToOne(() => Evento, evento => evento.llamadas, {onDelete: "CASCADE"})
     @JoinColumn({name: 'evento'})
     evento?: number;
 

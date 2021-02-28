@@ -4,7 +4,7 @@ import useSecurity from "../../../services/useSecurity";
 const express = require('express');
 
 export class UsuarioRoutes {
-  path = '/usuarios';
+  path = '/usuarios/';
 
   constructor(private app: any, private controller: UsuarioController) {
     this.setupRoutes()

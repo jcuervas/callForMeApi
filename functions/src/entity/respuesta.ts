@@ -14,7 +14,7 @@ export class Respuesta {
     @UpdateDateColumn() last_update?: Date;
     @Column() destinatario: string;
 
-    @ManyToOne(() => Alerta, alerta => alerta.respuestas)
+    @ManyToOne(() => Alerta, alerta => alerta.respuestas, {onDelete: "CASCADE"})
     @JoinColumn({name: 'alerta'})
     alerta: number;
 

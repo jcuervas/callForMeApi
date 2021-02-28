@@ -20,7 +20,7 @@ export class BaseRepository<T> {
     const queryBuilder = this.repository.createQueryBuilder('a');
     Object.keys(query).forEach(q => {
       if (query[q]) {
-        queryBuilder.andWhere(`a.${q} = :value`).setParameter('value', query[q])
+        queryBuilder.andWhere(`a.${q} = :${q}`).setParameter(q, query[q])
       }
     })
     if (limit) {

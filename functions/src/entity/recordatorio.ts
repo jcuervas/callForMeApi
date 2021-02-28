@@ -20,7 +20,7 @@ export class Recordatorio {
     @Column() tipo: string;
     @Column() tiempo_offset: number;
 
-    @ManyToOne(() => Alerta, alerta => alerta.recordatorios)
+    @ManyToOne(() => Alerta, alerta => alerta.recordatorios, {onDelete: "CASCADE"})
     @JoinColumn({name: 'alerta'})
     alerta: number;
 

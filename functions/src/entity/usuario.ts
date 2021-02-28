@@ -30,30 +30,29 @@ export class Usuario {
   @Column() timezone: string;
   @Column({default: 3}) num_intentos: number;
 
-  @OneToMany(() => Llamada, llamada => llamada.usuario)
+  @OneToMany(() => Llamada, llamada => llamada.usuario, {cascade: true})
   llamadas?: Llamada[];
 
-  @OneToMany(() => Borrado, borrado => borrado.usuario)
+  @OneToMany(() => Borrado, borrado => borrado.usuario, {cascade: true})
   borrados?: Borrado[];
 
-  @OneToMany(() => Respuesta, respuesta => respuesta.alerta)
+  @OneToMany(() => Respuesta, respuesta => respuesta.alerta, {cascade: true})
   respuestas?: Respuesta[];
 
-  @OneToMany(() => Predefinido, predefinido => predefinido.usuario)
+  @OneToMany(() => Predefinido, predefinido => predefinido.usuario, {cascade: true})
   predefinidos?: Predefinido[];
 
-  @OneToMany(() => Evento, evento => evento.usuario)
+  @OneToMany(() => Evento, evento => evento.usuario, {cascade: true})
   eventos?: Evento[];
 
   @OneToMany(() => Email, email => email.usuario, {cascade: true})
   emails?: Email[];
 
-  @OneToMany(() => Mensaje, mensaje => mensaje.email)
+  @OneToMany(() => Mensaje, mensaje => mensaje.email, {cascade: true})
   mensajes?: Mensaje[];
 
-  @OneToMany(() => ConfirmationToken, confirmationToken => confirmationToken.usuario)
+  @OneToMany(() => ConfirmationToken, confirmationToken => confirmationToken.usuario, {cascade: true})
   @JoinColumn() confirmationTokens?: ConfirmationToken[];
-
 
   constructor(props: any = {}) {
     this.id_usuario = props.id_usuario;

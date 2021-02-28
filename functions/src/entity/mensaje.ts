@@ -21,11 +21,11 @@ export class Mensaje {
     @Column({nullable: true}) cantidad_repeticion?: number;
     @UpdateDateColumn() last_update?: Date;
 
-    @ManyToOne(() => Evento, evento => evento.mensajes)
+    @ManyToOne(() => Evento, evento => evento.mensajes, {onDelete: "CASCADE"})
     @JoinColumn({name: 'evento'})
     evento: number;
 
-    @ManyToOne(() => Email, email => email.mensajes)
+    @ManyToOne(() => Email, email => email.mensajes, {onDelete: "CASCADE"})
     @JoinColumn({name: 'email'})
     email: number;
 

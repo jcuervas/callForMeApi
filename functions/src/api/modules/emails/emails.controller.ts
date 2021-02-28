@@ -28,7 +28,8 @@ export class EmailsController {
     const key = useSecurity.decrypt(confirmationToken).split(':')[1];
     if (Date.now() > Number(expiryTime)) {
       await userService.sendConfirmationUrlEmail(connection);
-      return res.status(403).send(useI18n.get('confirmationTokenExpired'))
+      await confirmationTokenRepository.delete(confirmationToken.id!.toString())
+      return res.status(403).send(useI18n.get('confirmationTokenExpired'));
     }
 
     if (key !== API_KEY) {
@@ -37,9 +38,11 @@ export class EmailsController {
 
     const email = await emailRepository.findOneByQuery({usuario: usuario.id_usuario});
     if (!email) {
+      await confirmationTokenRepository.delete(confirmationToken.id!.toString())
       return res.send(useI18n.get("userNotFoundError"))
     }
     if (email.estado === 'ACTIVADO') {
+      await confirmationTokenRepository.delete(confirmationToken.id!.toString())
       return res.send(useI18n.get("emailAlreadyConfirmed"))
     }
     email.estado = 'ACTIVADO';

@@ -28,7 +28,7 @@ const useSecurity = () => {
 
   function checkApiKey(req: any, res: any, next: any) {
     if (!req.url.includes('emailConfirmation') && req.headers.apikey !== API_KEY) {
-      res.status(401).send({Output: 'Access not authorized'});
+      res.status(401).send('Access not authorized');
     }
     next()
   }
