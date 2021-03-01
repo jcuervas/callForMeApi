@@ -1,11 +1,11 @@
-import {Column, Entity, JoinColumn, OneToOne, PrimaryColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryColumn} from "typeorm";
 import {Usuario} from "./usuario";
 
 @Entity({name: 'firebase_tokens'})
 export class FirebaseToken {
     @PrimaryColumn() device: string;
 
-    @OneToOne(() => Usuario, {nullable: true, onDelete: "SET NULL"})
+    @ManyToOne(() => Usuario,usuario => usuario.firebaseTokens, {nullable: true, onDelete: "SET NULL"})
     @JoinColumn({name: 'usuario'})
     usuario?: number;
 

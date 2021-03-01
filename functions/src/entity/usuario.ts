@@ -7,6 +7,7 @@ import {Evento} from "./evento";
 import {Email} from "./email";
 import {Mensaje} from "./mensaje";
 import {ConfirmationToken} from "./confirmationToken";
+import {FirebaseToken} from "./firebaseToken";
 
 @Entity({name: 'usuarios'})
 @Unique(["username"])
@@ -53,6 +54,9 @@ export class Usuario {
 
   @OneToMany(() => ConfirmationToken, confirmationToken => confirmationToken.usuario, {cascade: true})
   @JoinColumn() confirmationTokens?: ConfirmationToken[];
+
+  @OneToMany(() => FirebaseToken, firebaseToken => firebaseToken.usuario)
+  @JoinColumn() firebaseTokens?: FirebaseToken[]
 
   constructor(props: any = {}) {
     this.id_usuario = props.id_usuario;

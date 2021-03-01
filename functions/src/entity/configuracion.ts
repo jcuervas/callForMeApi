@@ -14,7 +14,7 @@ export class Configuracion {
     @Column({default: true, nullable: false}) not_eventos_pre?: boolean;
     @UpdateDateColumn() last_update?: Date;
 
-    @OneToOne(() => Usuario, {nullable: false, onDelete: "CASCADE"})
+    @OneToOne(() => Usuario, {nullable: false, onDelete: "CASCADE", eager: true})
     @JoinColumn({name: 'usuario'})
     usuario?: number;
 
