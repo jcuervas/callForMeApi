@@ -98,7 +98,7 @@ export class EmailsController {
   async patch(req: any, res: any) {
     const connection = await connect();
     const emailRepository = new BaseRepository(connection, Email);
-    return res.json(await emailRepository.patch(req.params.id_email, req.body.email));
+    return res.json(await emailRepository.patch(req.params.id_email, req.body));
   }
 
   async post(req: any, res: any) {
@@ -123,7 +123,7 @@ export class EmailsController {
   async put(req: any, res: any) {
     const connection = await connect();
     const emailRepository = new BaseRepository(connection, Email);
-    const email = new Email({id_email: req.params.id, ...req.body.email});
+    const email = new Email({id_email: req.params.id, ...req.body});
     return res.json(await emailRepository.update(email));
   }
 

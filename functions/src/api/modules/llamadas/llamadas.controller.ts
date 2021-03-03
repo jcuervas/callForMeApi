@@ -31,21 +31,21 @@ export class LlamadasController {
   async post(req: any, res: any) {
     const connection = await connect();
     const llamadaRepository = new BaseRepository(connection, Llamada);
-    const llamada = new Llamada(req.body.llamada);
+    const llamada = new Llamada(req.body);
     return res.json(await llamadaRepository.create(llamada));
   }
 
   async put(req: any, res: any) {
     const connection = await connect();
     const llamadaRepository = new BaseRepository(connection, Llamada);
-    const llamada = new Llamada(req.body.llamada);
+    const llamada = new Llamada(req.body);
     return res.json(await llamadaRepository.update(llamada));
   }
 
   async patch(req: any, res: any) {
     const connection = await connect();
     const llamadaRepository = new BaseRepository(connection, Llamada);
-    return res.json(await llamadaRepository.patch(req.params.id, req.body.llamada));
+    return res.json(await llamadaRepository.patch(req.params.id, req.body));
   }
 
   async delete(req: any, res: any) {

@@ -12,8 +12,8 @@ export class Alerta {
 
     @Column({type: "datetime"}) fecha: Date;
     @Column() tipo: 'EVENTO'|'MENSAJE'|'LLAMADA';
-    @Column() duracion: number
-    @Column() coste: number
+    @Column({nullable: true}) duracion: number
+    @Column({default: 0}) coste: number
     @Column() estado: string
     @Column({nullable: true}) uuid?: string
     @Column() num_intentos: number

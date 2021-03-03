@@ -29,21 +29,21 @@ export class AlertasController {
   async post(req: any, res: any) {
     const connection = await connect();
     const alertaBaseRepository = new BaseRepository(connection, Alerta);
-    const alerta = new Alerta(req.body.alerta);
+    const alerta = new Alerta(req.body);
     return res.json(await alertaBaseRepository.create(alerta));
   }
 
   async put(req: any, res: any) {
     const connection = await connect();
     const alertaBaseRepository = new BaseRepository(connection, Alerta);
-    const alerta = new Alerta(req.body.alerta);
+    const alerta = new Alerta(req.body);
     return res.json(await alertaBaseRepository.update(alerta));
   }
 
   async patch(req: any, res: any) {
     const connection = await connect();
     const alertaBaseRepository = new BaseRepository(connection, Alerta);
-    return res.json(await alertaBaseRepository.patch(req.params.id, req.body.alerta));
+    return res.json(await alertaBaseRepository.patch(req.params.id, req.body));
   }
 
   async delete(req: any, res: any) {

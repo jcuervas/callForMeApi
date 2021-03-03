@@ -30,7 +30,7 @@ export class MensajesController {
     const mensajeRepository = new BaseRepository(connection, Mensaje);
     const alertaRepository = new BaseRepository(connection, Alerta);
     const recordatorioRepository = new BaseRepository(connection, Recordatorio);
-    const mensaje = new Mensaje(req.body.mensaje);
+    const mensaje = new Mensaje(req.body);
     await mensajeRepository.create(mensaje);
     let maxAlerts = 0;
     let fechaFin: Date | null = null;
@@ -40,7 +40,13 @@ export class MensajesController {
     let fechaAlerta = mensaje.fecha_ini;
     while (maxAlerts < MAX_ALERTAS) {
       const alerta = await alertaRepository.create(
-        new Alerta({tipo: "MENSAJE", fecha: fechaAlerta, mensaje: mensaje.id_mensaje, num_intentos: 0})
+        new Alerta({
+          tipo: "MENSAJE",
+          fecha: fechaAlerta,
+          mensaje: mensaje.id_mensaje,
+          num_intentos: 0,
+          estado: 'PROGRAMADA'
+        })
       );
       const recordatorio = new Recordatorio({
         tipo: "ALARMA",
@@ -58,20 +64,20 @@ export class MensajesController {
       }
       maxAlerts++;
     }
-    return res.json();
+    return res.json({message: "ok"});
   }
 
   async put(req: any, res: any) {
     const connection = await connect();
     const mensajeRepository = new BaseRepository(connection, Mensaje);
-    const mensaje = new Mensaje({id_mensaje: req.params.id, ...req.body.mensaje});
+    const mensaje = new Mensaje({id_mensaje: req.params.id, ...req.body});
     return res.json(await mensajeRepository.update(mensaje));
   }
 
   async patch(req: any, res: any) {
     const connection = await connect();
     const mensajeRepository = new BaseRepository(connection, Mensaje);
-    return res.json(await mensajeRepository.patch(req.params.id, req.body.mensaje));
+    return res.json(await mensajeRepository.patch(req.params.id, req.body));
   }
 
   async delete(req: any, res: any) {
