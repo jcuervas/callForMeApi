@@ -1,11 +1,9 @@
 import {config} from "./config";
 
-const functions = require("firebase-functions");
+export const functionsConfig = require('firebase-functions').config();
 
 declare type environmentType = 'prod'|'dev'|'local';
-export const environment: environmentType = functions.config().config && functions.config().config.environment
-    || process.env.NODE_ENV
-    || 'local';
+export const environment: environmentType = process.env.NODE_ENV || functionsConfig.config.environment;
 
 export const isProduction = () => environment === 'prod'
 

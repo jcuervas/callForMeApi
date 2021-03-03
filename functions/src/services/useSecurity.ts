@@ -1,11 +1,13 @@
 import * as jwt from 'jsonwebtoken';
 import util from "../util/util";
+import {functionsConfig} from "../../config/environment";
 const crypto = require('crypto');
 
 const adminToken = 'aso978c8y39v8bfy3948pc';
 
 const algorithm = 'aes-256-gcm';
-export const API_KEY: string = process.env.API_KEY as string;
+export const API_KEY: string = process.env.API_KEY as string || functionsConfig.api.apikey;
+const cipherPassword = process.env.CIPHER_PASSWORD as string || functionsConfig.api.cipher_password;
 interface Encrypted {
   content: string;
   tag: number[];
@@ -15,7 +17,7 @@ interface Encrypted {
 const useSecurity = () => {
   function encrypt(text: string): Encrypted {
     const iv = util.generateRandomString();
-    const cipher = crypto.createCipheriv(algorithm, process.env.CIPHER_PASSWORD, iv);
+    const cipher = crypto.createCipheriv(algorithm, cipherPassword, iv);
     let content = cipher.update(text, 'utf8', 'hex');
     content += cipher.final('hex');
     const tag = cipher.getAuthTag();
@@ -34,7 +36,7 @@ const useSecurity = () => {
   }
 
   function decrypt(encrypted: Encrypted): string {
-    const decipher = crypto.createDecipheriv(algorithm, process.env.CIPHER_PASSWORD, encrypted.iv);
+    const decipher = crypto.createDecipheriv(algorithm, cipherPassword, encrypted.iv);
     decipher.setAuthTag(Buffer.from(encrypted.tag));
     let dec = decipher.update(encrypted.content, 'hex', 'utf8');
     dec += decipher.final('utf8');

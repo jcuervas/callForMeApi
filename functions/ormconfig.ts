@@ -1,14 +1,14 @@
-require('dotenv').config();
+const functionsConfig = require("firebase-functions").config();
 
 module.exports = [
   {
     "name": "dev",
     "type": "mysql",
-    "host": process.env.DB_HOST_DEV,
-    "port": process.env.DB_PORT_DEV,
-    "username": process.env.DB_USER_DEV,
-    "password": process.env.DB_PASSWORD_DEV,
-    "database": process.env.DB_NAME_DEV,
+    "host": process.env.DB_HOST || functionsConfig.ddbb.host,
+    "port": process.env.DB_PORT || functionsConfig.ddbb.port,
+    "username": process.env.DB_USER || functionsConfig.ddbb.user,
+    "password": process.env.DB_PASSWORD || functionsConfig.ddbb.password,
+    "database": process.env.DB_NAME || functionsConfig.ddbb.name,
     "synchronize": false,
     "logging": true,
     "entities": [
@@ -25,11 +25,11 @@ module.exports = [
   {
     "name": "prod",
     "type": "mysql",
-    "host": process.env.DB_HOST_PROD,
-    "port": process.env.DB_PORT_PROD,
-    "username": process.env.DB_USER_PROD,
-    "password": process.env.DB_PASSWORD_PROD,
-    "database": process.env.DB_NAME_PROD,
+    "host": process.env.DB_HOST || functionsConfig.ddbb.host,
+    "port": process.env.DB_PORT || functionsConfig.ddbb.port,
+    "username": process.env.DB_USER || functionsConfig.ddbb.user,
+    "password": process.env.DB_PASSWORD || functionsConfig.ddbb.password,
+    "database": process.env.DB_NAME || functionsConfig.ddbb.name,
     "synchronize": false,
     "logging": false,
     "entities": [
@@ -46,11 +46,11 @@ module.exports = [
   {
     "name": "local",
     "type": "mysql",
-    "host": process.env.DB_HOST_LOCAL,
-    "port": process.env.DB_PORT_LOCAL,
-    "username": process.env.DB_USER_LOCAL,
-    "password": process.env.DB_PASSWORD_LOCAL,
-    "database": process.env.DB_NAME_LOCAL,
+    "host": process.env.DB_HOST,
+    "port": process.env.DB_PORT,
+    "username": process.env.DB_USER,
+    "password": process.env.DB_PASSWORD,
+    "database": process.env.DB_NAME,
     "synchronize": false,
     "logging": true,
     "entities": [

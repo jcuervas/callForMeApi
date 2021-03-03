@@ -46,7 +46,6 @@ class MailService {
 
   async sendEmail(target: string, params: any, locale: string, tpl: mailTpl, from: string | null = null) {
     try {
-      console.log({params});
       const template = path.join(__dirname, '..', 'emails', locale, tpl);
       const options: Email.EmailOptions = {
         template,
@@ -57,7 +56,7 @@ class MailService {
           params
         }
       }
-      if (from) options.message.from = from;
+      if (from) options.message && (options.message.from = from);
       return await this.email
         .send(options)
     } catch (e) {

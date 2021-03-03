@@ -30,21 +30,21 @@ export class PredefinidosController {
   async post(req: any, res: any) {
     const connection = await connect();
     const predefinidoBaseRepository = new BaseRepository(connection, Predefinido);
-    const predefinido = new Predefinido(req.body.predefinido);
+    const predefinido = new Predefinido(req.body);
     return res.json(await predefinidoBaseRepository.create(predefinido));
   }
 
   async put(req: any, res: any) {
     const connection = await connect();
     const predefinidoBaseRepository = new BaseRepository(connection, Predefinido);
-    const predefinido = new Predefinido({id_predefinido: req.params.id, ...req.body.predefinido});
+    const predefinido = new Predefinido({id_predefinido: req.params.id, ...req.body});
     return res.json(await predefinidoBaseRepository.update(predefinido));
   }
 
   async patch(req: any, res: any) {
     const connection = await connect();
     const predefinidoBaseRepository = new BaseRepository(connection, Predefinido);
-    return res.json(await predefinidoBaseRepository.patch(req.params.id, req.body.predefinido));
+    return res.json(await predefinidoBaseRepository.patch(req.params.id, req.body));
   }
 
   async delete(req: any, res: any) {
