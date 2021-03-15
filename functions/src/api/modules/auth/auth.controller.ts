@@ -18,9 +18,8 @@ export class AuthController {
     if (!username || !password) {
       return res.status(403).send("Authentication Error")
     }
-    const user = await userRepository.findOneByQuery({username, password})
+    const user = (await userRepository.findByQuery({query: {username, password}, limit: 1})) as Usuario;
     if (!user) return res.status(404).send("User not found or password wrong");
-    console.log({user});
     const access_token = jwt.sign({check: true}, App.app.get('api_key'), {
       expiresIn: 36000
     });
@@ -33,9 +32,9 @@ export class AuthController {
       const connection = await connect();
       const {username} = req.params;
       const userRepository = new BaseRepository(connection, Usuario);
-      const user = await userRepository.findOneByQuery({username});
+      const user = (await userRepository.findByQuery({query: {username}, limit: 1})) as Usuario;
       const emailsRepository = new BaseRepository(connection, Email);
-      const email = await emailsRepository.findOneByQuery({direccion: username});
+      const email = (await emailsRepository.findByQuery({query: {direccion: username}, limit: 1})) as Email;
       if (email.estado === 'ACTIVADO') {
         const randomPassword = util.generateRandomString();
         user.password = crypto.createHash(randomPassword);

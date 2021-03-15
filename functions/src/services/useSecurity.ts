@@ -1,13 +1,12 @@
 import * as jwt from 'jsonwebtoken';
 import util from "../util/util";
-import {functionsConfig} from "../../config/environment";
 const crypto = require('crypto');
 
 const adminToken = 'aso978c8y39v8bfy3948pc';
 
 const algorithm = 'aes-256-gcm';
-export const API_KEY: string = process.env.API_KEY as string || functionsConfig.api.apikey;
-const cipherPassword = process.env.CIPHER_PASSWORD as string || functionsConfig.api.cipher_password;
+export const API_KEY: string = process.env.API_KEY as string;
+const cipherPassword = process.env.CIPHER_PASSWORD as string;
 interface Encrypted {
   content: string;
   tag: number[];

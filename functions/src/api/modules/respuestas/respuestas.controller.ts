@@ -11,7 +11,9 @@ export class RespuestasController {
     const {alerta, usuario, estado, last_update} = req.query;
     let respuestas: Respuesta | Respuesta[] | null;
     if (alerta || usuario || estado || last_update) {
-      respuestas = await respuestaRepository.findByQuery({alerta, usuario, estado, last_update})
+      respuestas = await respuestaRepository.findByQuery({
+        query: {alerta, usuario, estado, last_update}
+      })
     } else {
       respuestas = await respuestaRepository.findAll();
     }

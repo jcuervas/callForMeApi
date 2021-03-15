@@ -26,7 +26,7 @@ export class CallChecker {
                 //CronService.putEvent(alerta.fecha, alerta.id_alerta!);
 
                 await alertaRepository.patch(alerta.id_alerta!, {estado: 'ENVIADA'});
-                await llamadaRepository.patch(alerta.llamada, {last_update: new Date()});
+                await llamadaRepository.patch(alerta.llamada as number, {last_update: new Date()});
                 util.sleep(1);
             }
             if (!hasMore) {

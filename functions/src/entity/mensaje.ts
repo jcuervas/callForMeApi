@@ -4,6 +4,7 @@ import {Email} from "./email";
 import {Alerta} from "./alerta";
 import {Usuario} from "./usuario";
 import {timeUnit} from "../util/util";
+import {dateTimeTransformer} from "../util/constants";
 
 export const MAX_ALERTAS = 300;
 
@@ -15,11 +16,21 @@ export class Mensaje {
     @Column() texto: string;
     @Column() destinatario: string;
     @Column() tipo: string;
-    @Column({type: "datetime"}) fecha_ini: Date;
-    @Column({type: "datetime", nullable: true}) fecha_fin?: Date;
+    @Column({
+      type: "datetime",
+      transformer: dateTimeTransformer
+    }) fecha_ini: Date;
+    @Column({
+      type: "datetime",
+      transformer: dateTimeTransformer,
+      nullable: true
+    }) fecha_fin?: Date;
     @Column({nullable: true}) unidad_repeticion?: timeUnit;
     @Column({nullable: true}) cantidad_repeticion?: number;
-    @UpdateDateColumn() last_update?: Date;
+    @UpdateDateColumn({
+      type: "datetime",
+      transformer: dateTimeTransformer
+    }) last_update?: Date;
 
     @ManyToOne(() => Evento, evento => evento.mensajes, {onDelete: "CASCADE"})
     @JoinColumn({name: 'evento'})
@@ -51,4 +62,10 @@ export class Mensaje {
         this.alertas = props.alertas;
     }
 
+    populateAlertasWithId() {
+      this.alertas = this.alertas?.map(a => {
+        a.mensaje = this.id_mensaje!;
+        return a;
+      })
+    }
 }

@@ -2,7 +2,7 @@ import * as Email from 'email-templates';
 import * as path from "path";
 import {createTransport} from 'nodemailer'
 import Mail from "nodemailer/lib/mailer";
-import {configuration} from "../../config/environment";
+import {configuration} from "../config/environment";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 type mailTpl = 'emailConfirmation' | 'recoverPassword';

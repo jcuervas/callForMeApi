@@ -4,13 +4,18 @@ import {Mensaje} from "./mensaje";
 import {Recordatorio} from "./recordatorio";
 import {Llamada} from "./llamada";
 import {Respuesta} from "./respuesta";
+import {dateTimeTransformer} from "../util/constants";
+
 
 @Entity({name: 'alertas'})
 export class Alerta {
     @PrimaryGeneratedColumn({name: "id_alerta"})
     id_alerta?: number;
 
-    @Column({type: "datetime"}) fecha: Date;
+    @Column({
+      type: "datetime",
+      transformer: dateTimeTransformer
+    }) fecha: Date;
     @Column() tipo: 'EVENTO'|'MENSAJE'|'LLAMADA';
     @Column({nullable: true}) duracion: number
     @Column({default: 0}) coste: number
@@ -21,15 +26,16 @@ export class Alerta {
 
     @ManyToOne(() => Evento, evento => evento.alertas, {onDelete: "CASCADE", nullable: true})
     @JoinColumn({name: 'evento'})
-    evento: number;
+    evento: Evento|number;
 
     @ManyToOne(() => Llamada, evento => evento.alertas, {onDelete: "CASCADE", nullable: true})
     @JoinColumn({name: 'llamada'})
-    llamada: number;
+    llamada: Llamada|number;
 
     @ManyToOne(() => Mensaje, mensaje => mensaje.alertas, {onDelete: "CASCADE", nullable: true})
     @JoinColumn({name: 'mensaje'})
-    mensaje: number;
+    mensaje: Mensaje|number;
+
 
     @OneToMany(() => Recordatorio, recordatorio => recordatorio.alerta)
     recordatorios?: Recordatorio[];

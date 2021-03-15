@@ -8,6 +8,7 @@ import {Email} from "./email";
 import {Mensaje} from "./mensaje";
 import {ConfirmationToken} from "./confirmationToken";
 import {FirebaseToken} from "./firebaseToken";
+import {dateTimeTransformer} from "../util/constants";
 
 @Entity({name: 'usuarios'})
 @Unique(["username"])
@@ -22,7 +23,10 @@ export class Usuario {
   @Column() username: string;
   @Column() password: string;
   @Column({default: 'NO_CONFIRMADO'}) estado: 'PHONE_CONFIRMED' | 'NO_CONFIRMADO';
-  @Column({type: "datetime", default: () => "CURRENT_TIMESTAMP"}) fecha_alta: Date;
+  @Column({
+    type: "datetime",
+    transformer: dateTimeTransformer,
+    default: () => "CURRENT_TIMESTAMP"}) fecha_alta: Date;
   @Column({type: "double", default: 0}) credito: number;
   @Column({type: "varchar", length: 4}) registration_pin: string;
   @Column({type: "varchar", length: 45}) stripe_id: string;

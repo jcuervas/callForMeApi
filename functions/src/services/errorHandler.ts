@@ -1,4 +1,4 @@
-import {isProduction} from "../../config/environment";
+import {isProduction} from "../config/environment";
 
 export function errorHandler(err: Error, req: any, res: any, next: any): any {
   if (isProduction()) {

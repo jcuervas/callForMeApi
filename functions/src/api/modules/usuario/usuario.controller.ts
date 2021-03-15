@@ -17,7 +17,7 @@ export class UsuarioController {
     const {tipo, evento, llamada, mensaje, username} = req.query;
     let usuarios: Usuario | Usuario[];
     if (tipo || evento || llamada || mensaje || username) {
-      usuarios = await usuarioRepository.findByQuery({tipo, evento, llamada, mensaje, username})
+      usuarios = await usuarioRepository.findByQuery({query: {tipo, evento, llamada, mensaje, username}})
     } else {
       usuarios = await usuarioRepository.findAll();
     }
@@ -49,7 +49,7 @@ export class UsuarioController {
       await usuarioRepository.create(usuario);
       const userService = new UserService(usuario);
       await usuarioRepository.update(usuario);
-      const firebaseToken = await firebaseTokenBaseRepository.findOneByQuery({device});
+      const firebaseToken = (await firebaseTokenBaseRepository.findByQuery({query: {device}, limit: 1})) as FirebaseToken;
       firebaseToken.usuario = usuario.id_usuario;
       await firebaseTokenBaseRepository.update(firebaseToken);
       await userService.saveEmail(connection)

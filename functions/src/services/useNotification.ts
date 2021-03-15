@@ -1,4 +1,4 @@
-import {AdminSdk} from "../../config/adminSdk";
+import {AdminSdk} from "../config/adminSdk";
 import {FirebaseToken} from "../entity/firebaseToken";
 import admin from "firebase-admin";
 import MessagingPayload = admin.messaging.MessagingPayload;

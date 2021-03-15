@@ -7,10 +7,12 @@ export class PredefinidosController {
   async get(req: any, res: any) {
     const connection = await connect();
     const predefinidoBaseRepository = new BaseRepository(connection, Predefinido);
-    const {usuario, nombre, last_update, tipo} = req.query;
-    let predefinidos: Predefinido | Predefinido[] | null = null;
-    if (usuario || nombre || last_update || tipo) {
-      predefinidos = await predefinidoBaseRepository.findByQuery({usuario, nombre, last_update, tipo})
+    const {usuario, nombre, tipo} = req.query;
+    let predefinidos: Predefinido | Predefinido[] | null;
+    if (usuario || nombre || tipo) {
+      predefinidos = await predefinidoBaseRepository.findByQuery({
+        query: {usuario, nombre, tipo}
+      })
     } else {
       predefinidos = await predefinidoBaseRepository.findAll();
     }

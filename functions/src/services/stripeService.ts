@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 import {Usuario} from "../entity/usuario";
-import {configuration} from "../../config/environment";
+import {configuration} from "../config/environment";
 
 
 class StripeService {

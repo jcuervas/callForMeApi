@@ -19,7 +19,13 @@ export class EmailsController {
     const confirmationTokenRepository = new BaseRepository(connection, ConfirmationToken);
     const firebaseTokensRepository = new BaseRepository(connection, FirebaseToken);
     const {token} = req.query;
-    const confirmationToken = await confirmationTokenRepository.findOneByQuery({content: token}, ['usuario']);
+    const alias = 'c';
+    const confirmationToken = (await confirmationTokenRepository.findByQuery({
+      query: {content: token},
+      singleRelations: [{entity: Usuario, name: 'usuario', condition: 'c.usuario = usuario.id_usuario'}],
+      limit: 1,
+      alias
+    })) as ConfirmationToken;
     if (!confirmationToken) return res.status(404);
     const usuario = await confirmationToken.usuario;
     useI18n.setLocale(util.getLocaleString(usuario.timezone));
@@ -36,7 +42,9 @@ export class EmailsController {
       return res.status(403).send(useI18n.get('invalidApiKey'))
     }
 
-    const email = await emailRepository.findOneByQuery({usuario: usuario.id_usuario});
+    const email = (await emailRepository.findByQuery({
+      query: {usuario: usuario.id_usuario}, limit: 1
+    })) as Email;
     if (!email) {
       await confirmationTokenRepository.delete(confirmationToken.id!.toString())
       return res.send(useI18n.get("userNotFoundError"))
@@ -47,7 +55,9 @@ export class EmailsController {
     }
     email.estado = 'ACTIVADO';
     await emailRepository.repository.save(email);
-    const firebaseToken = await firebaseTokensRepository.findOneByQuery({usuario: usuario.id_usuario});
+    const firebaseToken = (await firebaseTokensRepository.findByQuery({
+      query: {usuario: usuario.id_usuario}, limit: 1
+    })) as FirebaseToken;
     if (!firebaseToken) {
       return res.send({message: 'could not send notification'});
     }
@@ -78,7 +88,7 @@ export class EmailsController {
     const {direccion, usuario, estado} = req.query;
     let emails: Email | Email[] | null = null;
     if (direccion || usuario || estado) {
-      emails = await emailRepository.findByQuery({direccion, usuario, estado});
+      emails = await emailRepository.findByQuery({query: {direccion, usuario, estado}});
     }
 
     if (!emails) return res.status(404);

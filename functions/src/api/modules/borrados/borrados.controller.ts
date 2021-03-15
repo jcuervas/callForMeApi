@@ -10,7 +10,7 @@ export class BorradosController {
         const {tabla, usuario, fecha} = req.query;
         let borrados: Borrado|Borrado[]|null = null;
         if (tabla || usuario || fecha) {
-            borrados = await borradosRepository.findByQuery({tabla, usuario, fecha})
+            borrados = await borradosRepository.findByQuery({query: {tabla, usuario, fecha}});
         }
         if (!borrados) return res.status(404);
         return res.json({borrados});

@@ -1,6 +1,9 @@
 import {connect} from "../../../services/connection";
 import {BaseRepository} from "../../../repository/repository";
 import {Alerta} from "../../../entity/alerta";
+import {Evento} from "../../../entity/evento";
+import {Llamada} from "../../../entity/llamada";
+import {Mensaje} from "../../../entity/mensaje";
 
 export class AlertasController {
 
@@ -10,10 +13,27 @@ export class AlertasController {
     const {usuario, last_update} = req.query;
     let alertas: Alerta | Alerta[];
     if (usuario || last_update) {
-      alertas = await alertaBaseRepository.findByQuery({usuario, last_update})
+      const queryBuilder = alertaBaseRepository.getQueryBuilder('a');
+      alertaBaseRepository.joinSingleRelations(queryBuilder,
+        [
+          {entity: Evento, name: 'evento', condition: 'a.evento = evento.id_evento'},
+          {entity: Llamada, name: 'llamada', condition: 'a.llamada = llamada.id_llamada'},
+          {entity: Mensaje, name: 'mensaje', condition: 'a.mensaje = mensaje.id_mensaje'}
+        ], 'a', 'select');
+      queryBuilder.orWhere('evento.usuario = :usuario')
+        .orWhere('llamada.usuario = :usuario')
+        .orWhere('mensaje.usuario = :usuario');
+      queryBuilder.setParameter('usuario', usuario)
+      alertas = await queryBuilder.getMany();
     } else {
       alertas = await alertaBaseRepository.findAll();
     }
+    alertas = alertas.map(a => {
+      a.mensaje = (a.mensaje as Mensaje)?.id_mensaje!;
+      a.llamada = (a.llamada as Llamada)?.id_llamada!;
+      a.evento = (a.evento as Evento)?.id_evento!;
+      return a;
+    })
     return res.json({alertas});
   }
 

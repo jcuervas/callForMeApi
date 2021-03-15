@@ -3,6 +3,8 @@ import {Usuario} from "./usuario";
 import {Llamada} from "./llamada";
 import {Alerta} from "./alerta";
 import {Mensaje} from "./mensaje";
+import {timeUnit} from "../util/util";
+import {dateTimeTransformer} from "../util/constants";
 
 @Entity({name: 'eventos'})
 export class Evento {
@@ -12,11 +14,21 @@ export class Evento {
     @Column({type: "double"}) duracion?: number;
     @Column({type: "text"}) descripcion?: string;
     @Column() lugar?: string;
-    @Column({type: "datetime"}) fecha_ini?: Date;
-    @Column({ type: "datetime", nullable: true}) fecha_fin?: Date;
-    @Column({nullable: true}) unidad_repeticion?: string;
+    @Column({
+      type: "datetime",
+      transformer: dateTimeTransformer
+    }) fecha_ini: Date;
+    @Column({
+      type: "datetime",
+      transformer: dateTimeTransformer,
+      nullable: true
+    }) fecha_fin?: Date;
+    @Column({nullable: true}) unidad_repeticion?: timeUnit;
     @Column({nullable: true}) cantidad_repeticion?: number;
-    @UpdateDateColumn() last_update?: Date;
+    @UpdateDateColumn({
+      type: "datetime",
+      transformer: dateTimeTransformer
+    }) last_update?: Date;
 
     @ManyToOne(() => Usuario, usuario => usuario.eventos, {onDelete: "CASCADE"})
     @JoinColumn({name: 'usuario'})
@@ -43,4 +55,11 @@ export class Evento {
         this.cantidad_repeticion = props.cantidad_repeticion;
         this.usuario = props.usuario;
     }
+
+  populateAlertasWithId() {
+    this.alertas = this.alertas?.map(a => {
+      a.evento = this.id_evento!;
+      return a;
+    })
+  }
 }

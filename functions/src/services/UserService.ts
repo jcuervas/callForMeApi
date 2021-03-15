@@ -1,7 +1,7 @@
 import {Usuario} from "../entity/usuario";
 import {addBusinessDays} from "date-fns";
 import {ConfirmationToken} from "../entity/confirmationToken";
-import {configuration, environment} from "../../config/environment";
+import {configuration, environment} from "../config/environment";
 import {BaseRepository} from "../repository/repository";
 import {Connection} from "typeorm";
 import {Configuracion} from "../entity/configuracion";

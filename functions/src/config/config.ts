@@ -1,5 +1,4 @@
 import * as path from "path";
-import {functionsConfig} from "./environment";
 
 interface configuration {
   apiUrl: string;
@@ -35,8 +34,8 @@ export const config: environments = {
       },
       senderToShow: 'Call for me'
     },
-    serviceAccount: path.join(__dirname,'../../service_account.json'),
-    stripeApiKey: functionsConfig && functionsConfig.stripe.apikey
+    serviceAccount: path.join(__dirname,'../../../service_account.json'),
+    stripeApiKey: process.env.STRIPE_API_KEY as string
   },
   dev: {
     apiUrl: 'https://callforme-2020.web.app',
@@ -50,8 +49,8 @@ export const config: environments = {
       },
       senderToShow: 'Call for me'
     },
-    serviceAccount: path.join(__dirname,'../../service_account_dev.json'),
-    stripeApiKey: functionsConfig && functionsConfig.stripe.apikey
+    serviceAccount: path.join(__dirname,'../../../service_account_dev.json'),
+    stripeApiKey: process.env.STRIPE_API_KEY as string
   },
   local: {
     apiUrl: 'https://callforme-2020.web.app',
@@ -65,7 +64,7 @@ export const config: environments = {
       },
       senderToShow: 'Call for me'
     },
-    serviceAccount: path.join(__dirname,'../../service_account_dev.json'),
-    stripeApiKey: process.env.STRIPE_API_KEY_DEV as string
+    serviceAccount: path.join(__dirname,'../../../service_account_dev.json'),
+    stripeApiKey: process.env.STRIPE_API_KEY as string
   }
 }

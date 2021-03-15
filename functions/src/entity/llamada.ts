@@ -2,6 +2,8 @@ import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn
 import {Usuario} from "./usuario";
 import {Evento} from "./evento";
 import {Alerta} from "./alerta";
+import {timeUnit} from "../util/util";
+import {dateTimeTransformer} from "../util/constants";
 
 @Entity({name: 'llamadas'})
 export class Llamada {
@@ -13,9 +15,16 @@ export class Llamada {
     @Column() idioma?: string;
     @Column() tiene_respuesta?: boolean;
     @Column() genero_voz?: 'MAN'|'WOMAN';
-    @Column({type: "datetime"}) fecha_ini?: Date;
-    @Column({type: "datetime", nullable: true}) fecha_fin?: Date;
-    @Column({nullable: true}) unidad_repeticion?: string;
+    @Column({
+      type: "datetime",
+      transformer: dateTimeTransformer
+    }) fecha_ini: Date;
+    @Column({
+      type: "datetime",
+      transformer: dateTimeTransformer,
+      nullable: true
+    }) fecha_fin?: Date;
+    @Column({nullable: true}) unidad_repeticion?: timeUnit;
     @Column({nullable: true}) cantidad_repeticion?: number;
     @UpdateDateColumn() last_update?: Date;
     @Column() num_intentos?: number;
@@ -48,4 +57,11 @@ export class Llamada {
         this.evento = props.evento;
         this.usuario = props.usuario;
     }
+
+  populateAlertasWithId() {
+    this.alertas = this.alertas?.map(a => {
+      a.llamada = this.id_llamada!;
+      return a;
+    })
+  }
 }

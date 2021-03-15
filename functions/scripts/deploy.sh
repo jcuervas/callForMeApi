@@ -1,32 +1,15 @@
+echo $PWD
 environment=$1
-firebase use "$environment"
-firebase functions:config:set config.environment="$environment"
-firebase functions:config:set plivo.auth_id="MAYZFLYTYYMTGXZDC5MT" plivo.auth_token="YTU1M2QyMzg3YjQzZjU2MzdiZWRhOGMyY2RkZTkx"
-firebase functions:config:set api.apikey="$%&Weprot17=?call4me@" api.cipher_password="3zTvzr3p67VC61jmV54rIYu1545x4TlY"
-
-if [ "$environment" = 'dev' ]
-then
-  host="vps-d88e0881.vps.ovh.net"
-  port=3306
-  name="call_for_me_dev"
-  user="dev_callforme"
-  password="%&Weprot=?call4me"
-  stripe_api_key="sk_test_GbNAtH7WvwdZLiP0PdMwiRl6"
-elif [ "$environment" = 'prod' ]
-then
-  host="vps-d88e0881.vps.ovh.net"
-  port=3306
-  name="call_for_me"
-  user="root_callforme"
-  password="%&Weprot=?call4me"
-  stripe_api_key="sk_live_cWuH7FHD6CR1sCWgZGc1koyt"
+if [ $environment == 'dev' ]; then
+  projectId="callforme-2020"
+elif [ $environment == 'dev' ]; then
+  projectId="call-for-me-9b527"
 fi
 
-firebase functions:config:set ddbb.host=$host
-firebase functions:config:set ddbb.port=$port
-firebase functions:config:set ddbb.name=$name
-firebase functions:config:set ddbb.user=$user
-firebase functions:config:set ddbb.password=$password
-firebase functions:config:set stripe.apikey=$stripe_api_key
+firebase use "$environment"
+npm run build
+pythonDir=/c/Users/javie/.pyenv/pyenv-win/versions/3.8.2/python
+CLOUDSDK_PYTHON=$pythonDir gcloud config set project $projectId
+CLOUDSDK_PYTHON=$pythonDir gcloud functions deploy app --env-vars-file=env.$environment.yaml
 
-firebase deploy --only functions:app,storage,hosting:"$1"
+firebase deploy --only storage,hosting:"$1"

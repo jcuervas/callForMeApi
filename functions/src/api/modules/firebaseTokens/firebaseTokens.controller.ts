@@ -10,7 +10,7 @@ export class FirebaseTokensController {
         const {token, usuario, device} = req.query;
         let firebaseTokens: FirebaseToken|FirebaseToken[] = [];
         if (token || usuario || device) {
-            firebaseTokens = await firebaseTokensRepository.findByQuery({token, usuario, device})
+            firebaseTokens = await firebaseTokensRepository.findByQuery({query: {token, usuario, device}});
         }
         return res.json({firebaseTokens});
     }
