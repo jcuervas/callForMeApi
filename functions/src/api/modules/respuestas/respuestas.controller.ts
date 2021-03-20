@@ -8,11 +8,11 @@ export class RespuestasController {
   async get(req: any, res: any) {
     const connection = await connect();
     const respuestaRepository = new BaseRepository(connection, Respuesta);
-    const {alerta, usuario, estado, last_update} = req.query;
+    const {alerta, usuario, estado} = req.query;
     let respuestas: Respuesta | Respuesta[] | null;
-    if (alerta || usuario || estado || last_update) {
+    if (alerta || usuario || estado) {
       respuestas = await respuestaRepository.findByQuery({
-        query: {alerta, usuario, estado, last_update}
+        query: {alerta, usuario, estado}
       })
     } else {
       respuestas = await respuestaRepository.findAll();
@@ -24,21 +24,21 @@ export class RespuestasController {
   async post(req: any, res: any) {
     const connection = await connect();
     const respuestaRepository = new BaseRepository(connection, Respuesta);
-    const respuesta = new Respuesta(req.body.respuesta);
+    const respuesta = new Respuesta(req.body);
     return res.json(await respuestaRepository.create(respuesta));
   }
 
   async put(req: any, res: any) {
     const connection = await connect();
     const respuestaRepository = new BaseRepository(connection, Respuesta);
-    const respuesta = new Respuesta({id_respuesta: req.params.id, ...req.body.respuesta});
+    const respuesta = new Respuesta({id_respuesta: req.params.id, ...req.body});
     return res.json(await respuestaRepository.update(respuesta));
   }
 
   async patch(req: any, res: any) {
     const connection = await connect();
     const respuestaRepository = new BaseRepository(connection, Respuesta);
-    return res.json(await respuestaRepository.patch(req.params.id, req.body.respuesta));
+    return res.json(await respuestaRepository.patch(req.params.id, req.body));
   }
 
   async delete(req: any, res: any) {

@@ -1,5 +1,4 @@
 import {connect} from "../../../services/connection";
-import {Respuesta} from "../../../entity/respuesta";
 import {BaseRepository} from "../../../repository/repository";
 import {Usuario} from "../../../entity/usuario";
 import {UserService} from "../../../services/UserService";
@@ -91,8 +90,8 @@ export class UsuarioController {
 
   async patch(req: any, res: any) {
     const connection = await connect();
-    const respuestaRepository = new BaseRepository(connection, Respuesta);
-    return res.json(await respuestaRepository.patch(req.params.id_respuesta, req.body));
+    const usuarioBaseRepository = new BaseRepository(connection, Usuario);
+    return res.json(await usuarioBaseRepository.patch(req.params.id, req.body));
   }
 
   async delete(req: any, res: any) {

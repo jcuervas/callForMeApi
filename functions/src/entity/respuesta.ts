@@ -20,7 +20,7 @@ export class Respuesta {
 
     @ManyToOne(() => Usuario, usuario => usuario.respuestas, {onDelete: "CASCADE"})
     @JoinColumn({name: 'usuario'})
-    usuario: number;
+    usuario: number|Alerta;
 
     constructor(props: any = {}) {
         this.id_respuesta = props.id_respuesta;

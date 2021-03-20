@@ -29,6 +29,7 @@ export class Llamada {
     @UpdateDateColumn() last_update?: Date;
     @Column() num_intentos?: number;
 
+    @Column({type: 'varchar'}) storageUrl: string;
 
     @ManyToOne(() => Evento, evento => evento.llamadas, {onDelete: "CASCADE"})
     @JoinColumn({name: 'evento'})
@@ -36,7 +37,7 @@ export class Llamada {
 
     @ManyToOne(() => Usuario, usuario => usuario.llamadas, {onDelete: "CASCADE"})
     @JoinColumn({name: 'usuario'})
-    usuario?: number;
+    usuario?: number|Usuario;
 
     @OneToMany(() => Alerta, alerta => alerta.evento, {cascade: true})
     alertas?: Alerta[];
@@ -54,6 +55,7 @@ export class Llamada {
         this.unidad_repeticion = props.unidad_repeticion;
         this.cantidad_repeticion = props.cantidad_repeticion;
         this.num_intentos = props.num_intentos;
+        this.storageUrl = props.storageUrl;
         this.evento = props.evento;
         this.usuario = props.usuario;
     }

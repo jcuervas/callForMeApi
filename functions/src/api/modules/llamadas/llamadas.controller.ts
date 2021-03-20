@@ -57,6 +57,7 @@ export class LlamadasController {
       fechaFin = llamada.fecha_fin;
     }
     let fechaAlerta = llamada.fecha_ini;
+
     while (maxAlerts < MAX_ALERTAS) {
       const alerta = await alertaRepository.create(new Alerta({
         tipo: "LLAMADA",

@@ -23,3 +23,5 @@ export class AdminSdk {
         return firebase.app();
     }
 }
+
+export default new AdminSdk();

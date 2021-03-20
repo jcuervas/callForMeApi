@@ -42,7 +42,7 @@ export class Mensaje {
 
     @ManyToOne(() => Usuario, usuario => usuario.mensajes, {onDelete: "CASCADE"})
     @JoinColumn({name: 'usuario'})
-    usuario: number;
+    usuario: number|Usuario;
 
     @OneToMany(() => Alerta, alerta => alerta.evento, {cascade: true})
     alertas: Alerta[];
