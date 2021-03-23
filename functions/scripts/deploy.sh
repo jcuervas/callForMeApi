@@ -2,7 +2,7 @@ echo $PWD
 environment=$1
 if [ $environment == 'dev' ]; then
   projectId="callforme-2020"
-elif [ $environment == 'dev' ]; then
+elif [ $environment == 'prod' ]; then
   projectId="call-for-me-9b527"
 fi
 

@@ -1,18 +1,18 @@
 import {configuration} from "../config/environment";
+import {Llamada} from "../entity/llamada";
 
 const useXML = () => {
-  function getPlivoXML(id_alerta: number) {
-    const template = `
+  function getPlivoCallXML(id_alerta: number, llamada: Llamada) {
+    return `
     <Response>
-    <Speak language="%s" voice="%s">%s</Speak>
+    <Speak language="${llamada.idioma}" voice="${llamada.genero_voz}">${llamada.texto}</Speak>
     <Record action="${configuration.apiUrl}/plivoRecord/${id_alerta}" method="GET" />
     </Response>
     `;
-    return template;
   }
 
   return {
-    getPlivoXML
+    getPlivoCallXML
   }
 }
 

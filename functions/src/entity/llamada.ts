@@ -29,13 +29,13 @@ export class Llamada {
     @UpdateDateColumn() last_update?: Date;
     @Column() num_intentos?: number;
 
-    @Column({type: 'varchar'}) storageUrl: string;
+    @Column({type: 'text'}) storageUrl: string;
 
     @ManyToOne(() => Evento, evento => evento.llamadas, {onDelete: "CASCADE"})
     @JoinColumn({name: 'evento'})
     evento?: number;
 
-    @ManyToOne(() => Usuario, usuario => usuario.llamadas, {onDelete: "CASCADE"})
+    @ManyToOne(() => Usuario, usuario => usuario.llamadas, {eager: true, onDelete: "CASCADE"})
     @JoinColumn({name: 'usuario'})
     usuario?: number|Usuario;
 

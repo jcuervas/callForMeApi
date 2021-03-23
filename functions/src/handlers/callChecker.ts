@@ -5,6 +5,7 @@ import {connect} from "../services/connection";
 import {Usuario} from "../entity/usuario";
 import {Mensaje} from "../entity/mensaje";
 import functions = require("firebase-functions");
+import plivoService from "../services/plivoService";
 
 export class CallChecker {
 
@@ -29,7 +30,7 @@ export class CallChecker {
       )
       .getMany();
     await CallChecker.sendPlivoMessages(alertas.filter(a => a.mensaje))
-    // await CallChecker.makePlivoCalls(alertas.filter(a => a.llamada));
+    await CallChecker.makePlivoCalls(alertas.filter(a => a.llamada));
   }
 
   static async sendPlivoMessages(alertas: Alerta[]) {
@@ -43,11 +44,11 @@ export class CallChecker {
       const codPais = usuario.cod_pais
       functions.logger.log("should send a message to " + codPais + alerta.destinatario)
 
-      /*await plivoService.sendMessage({
+      await plivoService.sendMessage({
         source: '111111111',
         destination: codPais + alerta.destinatario!,
         message: (alerta.mensaje as Mensaje).texto
-      })*/
+      })
     }
   }
 
@@ -61,11 +62,11 @@ export class CallChecker {
       const usuario = (alerta.llamada as Llamada).usuario  as Usuario
       const codPais = usuario.cod_pais;
       functions.logger.log("should call " + codPais + alerta.destinatario)
-      /*await plivoService.call({
+      await plivoService.call({
         source: '111111111',
         destination: codPais + alerta.destinatario!,
-        xml: (alerta.llamada as Llamada).texto
-      })*/
+        xml: (alerta.llamada as Llamada).storageUrl
+      })
     }
   }
 

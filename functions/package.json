@@ -19,7 +19,7 @@
     "migrate-local": "sh ./scripts/migrate.sh local"
   },
   "engines": {
-    "node": "10"
+    "node": "12"
   },
   "main": "lib/index.js",
   "dependencies": {
@@ -39,7 +39,7 @@
     "dotenv": "^8.2.0",
     "email-templates": "^8.0.3",
     "express": "^5.0.0-alpha.8",
-    "firebase": "^8.2.9",
+    "firebase": "^8.3.1",
     "firebase-admin": "^8.13.0",
     "firebase-functions": "^3.13.2",
     "i18n": "^0.13.2",

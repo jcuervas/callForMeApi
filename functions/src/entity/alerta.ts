@@ -24,15 +24,15 @@ export class Alerta {
     @Column() num_intentos: number
     @Column({nullable: true}) destinatario?: string;
 
-    @ManyToOne(() => Evento, evento => evento.alertas, {onDelete: "CASCADE", nullable: true})
+    @ManyToOne(() => Evento, evento => evento.alertas, {eager: true, onDelete: "CASCADE", nullable: true})
     @JoinColumn({name: 'evento'})
     evento: Evento|number;
 
-    @ManyToOne(() => Llamada, evento => evento.alertas, {onDelete: "CASCADE", nullable: true})
+    @ManyToOne(() => Llamada, evento => evento.alertas, {eager: true, onDelete: "CASCADE", nullable: true})
     @JoinColumn({name: 'llamada'})
     llamada: Llamada|number;
 
-    @ManyToOne(() => Mensaje, mensaje => mensaje.alertas, {onDelete: "CASCADE", nullable: true})
+    @ManyToOne(() => Mensaje, mensaje => mensaje.alertas, {eager: true, onDelete: "CASCADE", nullable: true})
     @JoinColumn({name: 'mensaje'})
     mensaje: Mensaje|number;
 

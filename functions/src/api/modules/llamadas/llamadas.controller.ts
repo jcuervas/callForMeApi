@@ -7,7 +7,9 @@ import {MAX_ALERTAS} from "../../../entity/mensaje";
 import {v4 as uuidv4} from "uuid";
 import {OFFSET, Recordatorio} from "../../../entity/recordatorio";
 import util from "../../../util/util";
-import {isBefore} from "date-fns";
+import {format, isBefore} from "date-fns";
+import useXML from "../../../services/useXML";
+import useStorage from "../../../services/useStorage";
 
 export class LlamadasController {
 
@@ -37,7 +39,6 @@ export class LlamadasController {
     const connection = await connect();
     const llamadaRepository = new BaseRepository(connection, Llamada);
     const {id} = req.params;
-    console.log({id, params: req.params});
     let llamada: Llamada;
     llamada = await llamadaRepository.findById(id);
     return res.json(llamada);
@@ -49,7 +50,7 @@ export class LlamadasController {
     const alertaRepository = new BaseRepository(connection, Alerta);
     const recordatorioRepository = new BaseRepository(connection, Recordatorio);
     const llamada = new Llamada(req.body);
-    await llamadaRepository.create(llamada);
+
 
     let maxAlerts = 0;
     let fechaFin: Date | null = null;
@@ -57,6 +58,7 @@ export class LlamadasController {
       fechaFin = llamada.fecha_fin;
     }
     let fechaAlerta = llamada.fecha_ini;
+    await llamadaRepository.create(llamada);
 
     while (maxAlerts < MAX_ALERTAS) {
       const alerta = await alertaRepository.create(new Alerta({
@@ -79,6 +81,8 @@ export class LlamadasController {
       if (!alerta.recordatorios) alerta.recordatorios = [];
       alerta.recordatorios.push(recordatorio);
       llamada.alertas.push(alerta);
+      const callName = `call_${llamada.id_llamada}_${llamada.destinatario}_${format(new Date(), 'dd-MM-yyyy')}.xml`
+      llamada.storageUrl = await useStorage.uploadObjectToBucket('assets/calls', callName, useXML.getPlivoCallXML(alerta.id_alerta!, llamada))
 
       if (fechaFin) {
         fechaAlerta = util.getNextDate(fechaAlerta, llamada.cantidad_repeticion!, llamada.unidad_repeticion!, 0);

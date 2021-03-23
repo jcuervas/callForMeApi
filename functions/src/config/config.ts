@@ -12,6 +12,7 @@ interface configuration {
     }
     senderToShow: string;
   },
+  storageBucket: string;
   serviceAccount: string;
   stripeApiKey: string;
 }
@@ -34,7 +35,8 @@ export const config: environments = {
       },
       senderToShow: 'Call for me'
     },
-    serviceAccount: path.join(__dirname,'../../../service_account.json'),
+    storageBucket: 'gs://call-for-me-9b527.appspot.com/',
+    serviceAccount: path.join(__dirname,'../../service_account.json'),
     stripeApiKey: process.env.STRIPE_API_KEY as string
   },
   dev: {
@@ -49,7 +51,8 @@ export const config: environments = {
       },
       senderToShow: 'Call for me'
     },
-    serviceAccount: path.join(__dirname,'../../../service_account_dev.json'),
+    storageBucket: 'gs://callforme-2020.appspot.com/',
+    serviceAccount: path.join(__dirname,'../../service_account_dev.json'),
     stripeApiKey: process.env.STRIPE_API_KEY as string
   },
   local: {
@@ -64,7 +67,8 @@ export const config: environments = {
       },
       senderToShow: 'Call for me'
     },
-    serviceAccount: path.join(__dirname,'../../../service_account_dev.json'),
+    storageBucket: 'gs://callforme-2020.appspot.com/',
+    serviceAccount: path.join(__dirname,'../../service_account_dev.json'),
     stripeApiKey: process.env.STRIPE_API_KEY as string
   }
 }
