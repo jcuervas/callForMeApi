@@ -15,6 +15,11 @@ interface configuration {
   storageBucket: string;
   serviceAccount: string;
   stripeApiKey: string;
+  plivo: {
+    minCreditToOperate: number;
+    creditMinNotification: number;
+    maxNotificationPeriod: 'minute'|'hour'|'day'|'week'|'month'|'year';
+  }
 }
 
 interface environments {
@@ -37,7 +42,12 @@ export const config: environments = {
     },
     storageBucket: 'gs://call-for-me-9b527.appspot.com/',
     serviceAccount: path.join(__dirname,'../../service_account.json'),
-    stripeApiKey: process.env.STRIPE_API_KEY as string
+    stripeApiKey: process.env.STRIPE_API_KEY as string,
+    plivo: {
+      minCreditToOperate: 0.2,
+      creditMinNotification: 1,
+      maxNotificationPeriod: "day"
+    }
   },
   dev: {
     apiUrl: 'https://callforme-2020.web.app',
@@ -53,7 +63,12 @@ export const config: environments = {
     },
     storageBucket: 'gs://callforme-2020.appspot.com/',
     serviceAccount: path.join(__dirname,'../../service_account_dev.json'),
-    stripeApiKey: process.env.STRIPE_API_KEY as string
+    stripeApiKey: process.env.STRIPE_API_KEY as string,
+    plivo: {
+      minCreditToOperate: 0.2,
+      creditMinNotification: 1,
+      maxNotificationPeriod: "day"
+    }
   },
   local: {
     apiUrl: 'https://callforme-2020.web.app',
@@ -69,6 +84,11 @@ export const config: environments = {
     },
     storageBucket: 'gs://callforme-2020.appspot.com/',
     serviceAccount: path.join(__dirname,'../../service_account_dev.json'),
-    stripeApiKey: process.env.STRIPE_API_KEY as string
+    stripeApiKey: process.env.STRIPE_API_KEY as string,
+    plivo: {
+      minCreditToOperate: 0.2,
+      creditMinNotification: 1,
+      maxNotificationPeriod: "minute"
+    }
   }
 }

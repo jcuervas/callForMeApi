@@ -9,6 +9,7 @@ import {Mensaje} from "./mensaje";
 import {ConfirmationToken} from "./confirmationToken";
 import {FirebaseToken} from "./firebaseToken";
 import {dateTimeTransformer} from "../util/constants";
+import {Notification} from "./notification";
 
 @Entity({name: 'usuarios'})
 @Unique(["username"])
@@ -62,6 +63,10 @@ export class Usuario {
   @OneToMany(() => FirebaseToken, firebaseToken => firebaseToken.usuario)
   @JoinColumn() firebaseTokens?: FirebaseToken[]
 
+  @OneToMany(() => Notification, notification => notification.usuario)
+  @JoinColumn() notifications?: Notification[]
+
+
   constructor(props: any = {}) {
     this.id_usuario = props.id_usuario;
     this.nombre = props.nombre;
@@ -77,6 +82,6 @@ export class Usuario {
     this.cod_pais = props.cod_pais;
     this.timezone = props.timezone;
     this.num_intentos = props.num_intentos;
+    this.notifications = props.notifications;
   }
-
 }

@@ -1,7 +1,8 @@
 {
   "projects": {
     "prod": "call-for-me-9b527",
-    "dev": "callforme-2020"
+    "dev": "callforme-2020",
+    "default": "callforme-2020"
   },
   "targets": {
     "call-for-me-9b527": {

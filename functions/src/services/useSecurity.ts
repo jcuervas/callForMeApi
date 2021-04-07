@@ -1,3 +1,4 @@
+import {Request} from 'express';
 import * as jwt from 'jsonwebtoken';
 import util from "../util/util";
 const crypto = require('crypto');
@@ -7,6 +8,18 @@ const adminToken = 'aso978c8y39v8bfy3948pc';
 const algorithm = 'aes-256-gcm';
 export const API_KEY: string = process.env.API_KEY as string;
 const cipherPassword = process.env.CIPHER_PASSWORD as string;
+
+const plivoHeaders = [
+  "X-Plivo-Cloud",
+  "X-Plivo-Signature",
+  "X-Plivo-Signature-MA-V2",
+  "X-Plivo-Signature-MA-V3",
+  "X-Plivo-Signature-V2",
+  "X-Plivo-Signature-V2-Nonce",
+  "X-Plivo-Signature-V3",
+  "X-Plivo-Signature-V3-Nonce"
+]
+
 interface Encrypted {
   content: string;
   tag: number[];
@@ -27,7 +40,14 @@ const useSecurity = () => {
     };
   }
 
+  function checkPlivoHeaders(req: Request) {
+    return plivoHeaders.some(header => req.headers[header])
+  }
+
   function checkApiKey(req: any, res: any, next: any) {
+    if (checkPlivoHeaders(req)) {
+      next();
+    }
     if (!req.url.includes('emailConfirmation') && req.headers.apikey !== API_KEY) {
       res.status(401).send('Access not authorized');
     }
@@ -51,7 +71,7 @@ const useSecurity = () => {
         next();
         return true;
       } catch (e) {
-        return res.status(401).send({Output: 'Access not authorized'});
+        return res.status(401).send('Access not authorized');
       }
     })
   }

@@ -51,7 +51,6 @@ export class LlamadasController {
     const recordatorioRepository = new BaseRepository(connection, Recordatorio);
     const llamada = new Llamada(req.body);
 
-
     let maxAlerts = 0;
     let fechaFin: Date | null = null;
     if (llamada.unidad_repeticion && llamada.cantidad_repeticion && llamada.fecha_fin) {

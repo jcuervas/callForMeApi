@@ -1,7 +1,7 @@
 import {connect} from "../../../services/connection";
 import {BaseRepository} from "../../../repository/repository";
 import {Usuario} from "../../../entity/usuario";
-import {UserService} from "../../../services/UserService";
+import {UserService} from "../../../services/userService";
 import stripeService from "../../../services/stripeService";
 import * as jwt from "jsonwebtoken";
 import App from "../../app";

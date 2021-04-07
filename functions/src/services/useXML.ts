@@ -6,7 +6,7 @@ const useXML = () => {
     return `
     <Response>
     <Speak language="${llamada.idioma}" voice="${llamada.genero_voz}">${llamada.texto}</Speak>
-    <Record action="${configuration.apiUrl}/plivoRecord/${id_alerta}" method="GET" />
+    <Record action="${configuration.apiUrl}/plivoRecord/${id_alerta}" method="POST" />
     </Response>
     `;
   }

@@ -9,53 +9,54 @@ import {dateTimeTransformer} from "../util/constants";
 
 @Entity({name: 'alertas'})
 export class Alerta {
-    @PrimaryGeneratedColumn({name: "id_alerta"})
-    id_alerta?: number;
+  @PrimaryGeneratedColumn({name: "id_alerta"})
+  id_alerta?: number;
 
-    @Column({
-      type: "datetime",
-      transformer: dateTimeTransformer
-    }) fecha: Date;
-    @Column() tipo: 'EVENTO'|'MENSAJE'|'LLAMADA';
-    @Column({nullable: true}) duracion: number
-    @Column({default: 0}) coste: number
-    @Column() estado: string
-    @Column({nullable: true}) uuid?: string
-    @Column() num_intentos: number
-    @Column({nullable: true}) destinatario?: string;
+  @Column({
+    type: "datetime",
+    transformer: dateTimeTransformer
+  }) fecha: Date;
+  @Column() tipo: 'EVENTO' | 'MENSAJE' | 'LLAMADA';
+  @Column({nullable: true}) duracion: number
+  @Column({default: 0}) coste: number
+  @Column() estado: 'PROGRAMADA' | 'ENVIADA' | 'delivered' | 'completed' | 'no-answer' | 'failed' | 'NOT_ENOUGH_CREDIT'
+  @Column({nullable: true}) uuid?: string
+  @Column() num_intentos: number
+  @Column({nullable: true}) destinatario?: string;
 
-    @ManyToOne(() => Evento, evento => evento.alertas, {eager: true, onDelete: "CASCADE", nullable: true})
-    @JoinColumn({name: 'evento'})
-    evento: Evento|number;
+  @ManyToOne(() => Evento, evento => evento.alertas, {eager: true, onDelete: "CASCADE", nullable: true})
+  @JoinColumn({name: 'evento'})
+  evento: Evento | number;
 
-    @ManyToOne(() => Llamada, evento => evento.alertas, {eager: true, onDelete: "CASCADE", nullable: true})
-    @JoinColumn({name: 'llamada'})
-    llamada: Llamada|number;
+  @ManyToOne(() => Llamada, evento => evento.alertas, {eager: true, onDelete: "CASCADE", nullable: true})
+  @JoinColumn({name: 'llamada'})
+  llamada: Llamada | number;
 
-    @ManyToOne(() => Mensaje, mensaje => mensaje.alertas, {eager: true, onDelete: "CASCADE", nullable: true})
-    @JoinColumn({name: 'mensaje'})
-    mensaje: Mensaje|number;
-
-
-    @OneToMany(() => Recordatorio, recordatorio => recordatorio.alerta)
-    recordatorios?: Recordatorio[];
-
-    @OneToMany(() => Respuesta, respuesta => respuesta.alerta)
-    respuestas?: Respuesta[];
+  @ManyToOne(() => Mensaje, mensaje => mensaje.alertas, {eager: true, onDelete: "CASCADE", nullable: true})
+  @JoinColumn({name: 'mensaje'})
+  mensaje: Mensaje | number;
 
 
-    constructor(props: any = {}) {
-        this.id_alerta = props.id_alerta;
-        this.fecha = props.fecha;
-        this.tipo = props.tipo;
-        this.duracion = props.duracion;
-        this.coste = props.coste;
-        this.estado = props.estado;
-        this.uuid = props.uuid;
-        this.num_intentos = props.num_intentos;
-        this.destinatario = props.destinatario;
-        this.evento = props.evento;
-        this.llamada = props.llamada;
-        this.mensaje = props.mensaje;
-    }
+  @OneToMany(() => Recordatorio, recordatorio => recordatorio.alerta)
+  recordatorios?: Recordatorio[];
+
+  @OneToMany(() => Respuesta, respuesta => respuesta.alerta)
+  respuestas?: Respuesta[];
+
+
+  constructor(props: any = {}) {
+    this.id_alerta = props.id_alerta;
+    this.fecha = props.fecha;
+    this.tipo = props.tipo;
+    this.duracion = props.duracion;
+    this.coste = props.coste;
+    this.estado = props.estado;
+    this.uuid = props.uuid;
+    this.num_intentos = props.num_intentos;
+    this.destinatario = props.destinatario;
+    this.evento = props.evento;
+    this.llamada = props.llamada;
+    this.mensaje = props.mensaje;
+  }
+
 }

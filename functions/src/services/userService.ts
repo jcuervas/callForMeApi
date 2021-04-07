@@ -1,5 +1,11 @@
 import {Usuario} from "../entity/usuario";
-import {addBusinessDays} from "date-fns";
+import {
+  addBusinessDays,
+  differenceInCalendarDays, differenceInCalendarMonths, differenceInCalendarWeeks, differenceInCalendarYears,
+  differenceInHours,
+  differenceInMilliseconds,
+  differenceInMinutes
+} from "date-fns";
 import {ConfirmationToken} from "../entity/confirmationToken";
 import {configuration, environment} from "../config/environment";
 import {BaseRepository} from "../repository/repository";
@@ -11,6 +17,8 @@ import util from "../util/util";
 import useSecurity, {API_KEY} from "./useSecurity";
 import plivoService from "./plivoService";
 import useI18n from "./useI18n";
+import {Notification} from "../entity/notification";
+import { convertToTimeZone } from 'date-fns-timezone';
 
 export class UserService {
 
@@ -61,5 +69,41 @@ export class UserService {
       message: useI18n.get('TEXT_PIN_REGISTRATION') + this.user.registration_pin
     })
     console.log({plivoResult});
+  }
+
+  hasCreditToOperate() {
+    return this.user.credito >= configuration.plivo.minCreditToOperate;
+  }
+
+  creditGoesBelowMinToNotify() {
+    return this.user.credito <= configuration.plivo.creditMinNotification;
+  }
+
+  getLastNotification(): Notification|undefined {
+    const sortedNotifications = this.user.notifications
+      && this.user.notifications.sort((n1, n2) =>
+        differenceInMilliseconds(new Date(n1.created!), new Date(n2.created!)) > 0 ? -1 : 1);
+    return sortedNotifications && sortedNotifications[0];
+  }
+
+  isNotifiedInPeriod() {
+    const lastNotification = this.getLastNotification();
+    if (!lastNotification) return false;
+    const now = convertToTimeZone(new Date(), {timeZone: 'UTC'});
+    const created = new Date(lastNotification.created!);
+    switch (configuration.plivo.maxNotificationPeriod) {
+      case "minute":
+        return differenceInMinutes(now, created) < 1;
+      case "hour":
+        return differenceInHours(now, created) < 1;
+      case "day":
+        return differenceInCalendarDays(now, created) < 1;
+      case "week":
+        return differenceInCalendarWeeks(now, created) < 1;
+      case "month":
+        return differenceInCalendarMonths(now, created) < 1;
+      case "year":
+        return differenceInCalendarYears(now, created) < 1;
+    }
   }
 }

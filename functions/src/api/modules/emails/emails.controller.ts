@@ -6,7 +6,7 @@ import {Borrado} from "../../../entity/borrado";
 import util from "../../../util/util";
 import {FirebaseToken} from "../../../entity/firebaseToken";
 import {ConfirmationToken} from "../../../entity/confirmationToken";
-import {UserService} from "../../../services/UserService";
+import {UserService} from "../../../services/userService";
 import useNotification from "../../../services/useNotification";
 import useSecurity, {API_KEY} from "../../../services/useSecurity";
 import useI18n from "../../../services/useI18n";

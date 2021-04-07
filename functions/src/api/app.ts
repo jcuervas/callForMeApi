@@ -19,42 +19,43 @@ const express = require('express');
 const cors = require('cors');
 
 class App {
-    app: any;
+  app: any;
 
-    constructor() {
-        this.app = express();
-        this.config();
-        this.initModules();
-    }
+  constructor() {
+    this.app = express();
+    this.config();
+    this.initModules();
+  }
 
-    private config() {
-        this.app.use(express.json());
-        this.app.use(express.urlencoded({extended: true}));
-        const corsOptions = {
-            origin: true,
-        }
-        this.app.use(cors(corsOptions));
-        this.app.use(errorHandler);
-        this.app.set('api_key', API_KEY);
-        this.app.use(useSecurity.checkApiKey);
+  private config() {
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({extended: true}));
+    const corsOptions = {
+      origin: true,
+      allowedHeaders: ['X-Plivo-Signature-MA-V2', 'X-Plivo-Signature-V2-Nonce', 'X-Plivo-Signature', 'X-Plivo-Signature-V2']
     }
+    this.app.use(cors(corsOptions));
+    this.app.use(errorHandler);
+    this.app.set('api_key', API_KEY);
+    this.app.use(useSecurity.checkApiKey);
+  }
 
-    private initModules() {
-        new AuthModule(this.app);
-        new AlertasModule(this.app);
-        new BorradosModule(this.app);
-        new RespuestasModule(this.app);
-        new UsuariosModule(this.app);
-        new ConfiguracionesModule(this.app);
-        new LlamadasModule(this.app);
-        new MensajesModule(this.app);
-        new EventosModule(this.app);
-        new EmailsModule(this.app);
-        new PlivoModule(this.app);
-        new PredefinidosModule(this.app);
-        new FirebaseTokensModule(this.app);
-        new StripeModule(this.app);
-    }
+  private initModules() {
+    new AuthModule(this.app);
+    new AlertasModule(this.app);
+    new BorradosModule(this.app);
+    new RespuestasModule(this.app);
+    new UsuariosModule(this.app);
+    new ConfiguracionesModule(this.app);
+    new LlamadasModule(this.app);
+    new MensajesModule(this.app);
+    new EventosModule(this.app);
+    new EmailsModule(this.app);
+    new PlivoModule(this.app);
+    new PredefinidosModule(this.app);
+    new FirebaseTokensModule(this.app);
+    new StripeModule(this.app);
+  }
 }
 
 export default new App();

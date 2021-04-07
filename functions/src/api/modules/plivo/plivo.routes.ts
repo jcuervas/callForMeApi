@@ -1,4 +1,5 @@
 import {PlivoController} from "./plivo.controller";
+import {CallChecker} from "../../../handlers/callChecker";
 
 export class PlivoRoutes {
   answer = '/PlivoAnswer';
@@ -11,6 +12,7 @@ export class PlivoRoutes {
   }
 
   private setupRoutes() {
+    this.app.get('/callChecker', CallChecker.requestCall);
     this.app.get(this.answer + '/:idAlerta', this.controller.getPlivoAnswer);
     this.app.get(this.call + '/:idAlerta', this.controller.getPlivoCall);
     this.app.post(this.record + '/:idAlerta', this.controller.postPlivoRecord);

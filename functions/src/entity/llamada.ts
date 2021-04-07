@@ -55,7 +55,7 @@ export class Llamada {
         this.unidad_repeticion = props.unidad_repeticion;
         this.cantidad_repeticion = props.cantidad_repeticion;
         this.num_intentos = props.num_intentos;
-        this.storageUrl = props.storageUrl;
+        this.storageUrl = props.storageUrl || '';
         this.evento = props.evento;
         this.usuario = props.usuario;
     }
