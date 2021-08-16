@@ -1,19 +1,19 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryColumn} from "typeorm";
-import {Usuario} from "./usuario";
+import {User} from "./user";
 
 @Entity({name: 'firebase_tokens'})
 export class FirebaseToken {
     @PrimaryColumn() device: string;
 
-    @ManyToOne(() => Usuario,usuario => usuario.firebaseTokens, {nullable: true, onDelete: "SET NULL"})
+    @ManyToOne(() => User, usuario => usuario.firebaseTokens, {nullable: true, onDelete: "SET NULL"})
     @JoinColumn({name: 'usuario'})
-    usuario?: number;
+    user?: number;
 
     @Column()
     token: string;
 
     constructor(props: any = {}) {
-        this.usuario = props.usuario ? props.usuario : null;
+        this.user = props.usuario ? props.usuario : null;
         this.token = props.token;
         this.device = props.device;
     }

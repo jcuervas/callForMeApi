@@ -1,4 +1,4 @@
-import {Connection, ObjectLiteral, Repository, UpdateResult} from "typeorm";
+import {Connection, FindOneOptions, ObjectLiteral, Repository, UpdateResult} from "typeorm";
 import {EntityTarget} from "typeorm/common/EntityTarget";
 import {SelectQueryBuilder} from "typeorm/query-builder/SelectQueryBuilder";
 
@@ -33,8 +33,8 @@ export class BaseRepository<T> {
     return this.repository.find();
   }
 
-  async findById(id: string | number): Promise<T> {
-    return this.repository.findOneOrFail(id);
+  async findById(id: string, options?: FindOneOptions): Promise<T> {
+    return this.repository.findOneOrFail(id, options);
   }
 
   findByQuery(params: FindParams): Promise<T|T[]> {

@@ -1,14 +1,14 @@
 import {Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {Usuario} from "./usuario";
+import {User} from "./user";
 
 @Entity()
 export class Notification {
 
   @PrimaryGeneratedColumn() id: number;
 
-  @ManyToOne(() => Usuario, usuario => usuario.firebaseTokens, {nullable: true, onDelete: "SET NULL"})
+  @ManyToOne(() => User, usuario => usuario.firebaseTokens, {nullable: true, onDelete: "SET NULL"})
   @JoinColumn({name: 'usuario'})
-  usuario?: number;
+  user?: number;
 
   @Column({type: "varchar"})
   title: string;
@@ -23,7 +23,7 @@ export class Notification {
 
   constructor(props: any = {}) {
     this.id = props.id;
-    this.usuario = props.usuario;
+    this.user = props.usuario;
     this.title = props.title;
     this.body = props.body;
     this.payload = props.payload;

@@ -1,6 +1,6 @@
 import {connect} from "../../../services/connection";
 import {BaseRepository} from "../../../repository/repository";
-import {Usuario} from "../../../entity/usuario";
+import {User} from "../../../entity/user";
 import stripeService from "../../../services/stripeService";
 
 export class StripeController {
@@ -8,7 +8,7 @@ export class StripeController {
 
   async ephemeralKeys(req: any, res: any) {
     const connection = await connect();
-    const userRepository = new BaseRepository(connection, Usuario);
+    const userRepository = new BaseRepository(connection, user);
     const {id_usuario, api_version} = req.query;
     const user = await userRepository.findById(id_usuario);
     return res.json(await stripeService.getEphemeralKeys(user, api_version));
@@ -17,7 +17,7 @@ export class StripeController {
 
   async charge(req: any, res: any) {
     const connection = await connect();
-    const userRepository = new BaseRepository(connection, Usuario);
+    const userRepository = new BaseRepository(connection, user);
     const {id_usuario, amount, currency, source} = req.query;
     const user = await userRepository.findById(id_usuario);
     const charge = await stripeService.charge(user, currency, amount, source);

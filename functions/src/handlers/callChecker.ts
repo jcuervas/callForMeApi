@@ -1,17 +1,17 @@
-import {BaseRepository} from "../repository/repository";
-import {Alerta} from "../entity/alerta";
-import {Llamada} from "../entity/llamada";
-import {connect} from "../services/connection";
-import {Usuario} from "../entity/usuario";
-import {Notification} from "../entity/notification";
-import {Mensaje} from "../entity/mensaje";
 import functions = require("firebase-functions");
 import plivoService from "../services/plivoService";
 import useNotification from "../services/useNotification";
 import useI18n from "../services/useI18n";
 import util from "../util/util";
+import {connect} from "../services/connection";
+import {BaseRepository} from "../repository/repository";
+import {Alert} from "../entity/alert";
 import {AlertaService} from "../services/alertaService";
 import {FirebaseToken} from "../entity/firebaseToken";
+import {Message} from "../entity/message";
+import {User} from "../entity/user";
+import {Call} from "../entity/call";
+import {Notification} from "../entity/notification";
 
 export class CallChecker {
 
@@ -25,11 +25,14 @@ export class CallChecker {
 
   static async handleProgrammedCalls() {
     const connection = await connect();
-    const alertaRepository = new BaseRepository(connection, Alerta);
+    const alertaRepository = new BaseRepository(connection, Alert);
     const alias = 'a';
     const queryBuilder = alertaRepository.getQueryBuilder(alias);
-    const alertas: Alerta[] = await queryBuilder
+    const alertas: Alert[] = await queryBuilder
       .where("date(a.fecha) = date(NOW())")
+      .andWhere('timestampdiff(minute, a.fecha, NOW()) <= 1')
+      .andWhere('timestampdiff(minute, a.fecha, NOW()) >= 0')
+      .andWhere("a.estado = 'PROGRAMADA'")
       .leftJoinAndSelect('a.mensaje', 'm')
       .leftJoinAndSelect('a.llamada', 'll')
       .leftJoinAndSelect( 'm.usuario', 'u')
@@ -38,10 +41,10 @@ export class CallChecker {
       .leftJoinAndSelect('u2.notifications', 'n2')
       .getMany();
 
-    const messagesToSend: Alerta[] = [],
-      messagesToNotifyLowCredit: Alerta[] = [],
-      callsToSend: Alerta[] = [],
-      callsToNotifyLowCredit: Alerta[] = [];
+    const messagesToSend: Alert[] = [],
+      messagesToNotifyLowCredit: Alert[] = [],
+      callsToSend: Alert[] = [],
+      callsToNotifyLowCredit: Alert[] = [];
 
     alertas.forEach(a => {
       const alertaService = new AlertaService(a);
@@ -59,8 +62,8 @@ export class CallChecker {
       }
     })
     return {
-      alertas,
-      callsToNotifyLowCredit,
+      messagesToSend,
+      callsToSend,
       messagesToNotifyLowCredit: CallChecker.notifyLowCredit(messagesToNotifyLowCredit),
       callsToNotifyLowCreditAction: CallChecker.notifyLowCredit(callsToNotifyLowCredit),
       messagesSent: await CallChecker.sendPlivoMessages(messagesToSend),
@@ -68,7 +71,7 @@ export class CallChecker {
     };
   }
 
-  static async notifyLowCredit(alertas: Alerta[]) {
+  static async notifyLowCredit(alertas: Alert[]) {
     const connection = await connect();
     const notificationRepository = new BaseRepository(connection, Notification);
     const firebaseTokensRepository = new BaseRepository(connection, FirebaseToken);
@@ -95,14 +98,14 @@ export class CallChecker {
     }
   }
 
-  static async sendPlivoMessages(alertas: Alerta[]) {
+  static async sendPlivoMessages(alertas: Alert[]) {
     const connection = await connect();
-    const mensajeRepository = new BaseRepository(connection, Mensaje);
-    const alertaRepository = new BaseRepository(connection, Alerta);
+    const mensajeRepository = new BaseRepository(connection, Message);
+    const alertaRepository = new BaseRepository(connection, Alert);
     const plivoResult = [];
     for (const alerta of alertas) {
-      const mensaje = alerta.mensaje as Mensaje;
-      const usuario = mensaje.usuario as Usuario;
+      const mensaje = alerta.mensaje as Message;
+      const usuario = mensaje.usuario as User;
       await alertaRepository.patch(alerta.id_alerta!, {estado: 'ENVIADA'});
       await mensajeRepository.patch(mensaje.id_mensaje!, {last_update: new Date()});
       const codPais = usuario.cod_pais;
@@ -116,22 +119,21 @@ export class CallChecker {
     return plivoResult;
   }
 
-  static async makePlivoCalls(alertas: Alerta[]) {
+  static async makePlivoCalls(alertas: Alert[]) {
     const connection = await connect();
-    const llamadaRepository = new BaseRepository(connection, Llamada);
-    const alertaRepository = new BaseRepository(connection, Alerta);
+    const llamadaRepository = new BaseRepository(connection, Call);
+    const alertaRepository = new BaseRepository(connection, Alert);
     const plivoResult = [];
     for (const alerta of alertas) {
-      const llamada = await llamadaRepository.findById(alerta.llamada as number)
+      const llamada = alerta.llamada as Call;
+      const usuario = llamada.user as User
       await alertaRepository.patch(alerta.id_alerta!, {estado: 'ENVIADA'});
       await llamadaRepository.patch(llamada.id_llamada!, {last_update: new Date()});
-      const usuario = llamada.usuario as Usuario
       const codPais = usuario.cod_pais;
       functions.logger.log("should call " + codPais + alerta.destinatario)
       plivoResult.push(await plivoService.call({
         source: usuario.cod_pais + usuario.telefono,
         destination: codPais + alerta.destinatario!,
-        xml: llamada.storageUrl,
         id_alerta: alerta.id_alerta!
       }))
     }

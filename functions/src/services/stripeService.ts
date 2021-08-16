@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import {Usuario} from "../entity/usuario";
+import {User} from "../entity/user";
 import {configuration} from "../config/environment";
 
 
@@ -27,7 +27,7 @@ class StripeService {
     return customer.id;
   };
 
-  getEphemeralKeys(user: Usuario, apiVersion: string) {
+  getEphemeralKeys(user: User, apiVersion: string) {
     const params: Stripe.EphemeralKeyCreateParams = {
       customer: user.stripe_id
     }
@@ -38,7 +38,7 @@ class StripeService {
     return this.stripe.ephemeralKeys.create(params, requestOptions)
   }
 
-  async charge(user: Usuario, currency: any, amount: any, source: any) {
+  async charge(user: User, currency: any, amount: any, source: any) {
     return this.stripe.charges.create({
       amount, currency, source,
       description: 'Payment',

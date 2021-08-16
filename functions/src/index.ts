@@ -1,7 +1,10 @@
 import * as functions from 'firebase-functions';
-import App from './api/app';
 import {CallChecker} from "./handlers/callChecker";
+import {createApi, expressServer} from "src/api/createApi";
 
-exports.app = functions.https.onRequest(App.app);
+exports.api = functions.https.onRequest(async (req, res) => {
+  await createApi(expressServer)
+  expressServer(req, res)
+});
 
 exports.callChecker = functions.pubsub.schedule('* * * * *').onRun(CallChecker.handle)

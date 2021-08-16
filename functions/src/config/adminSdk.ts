@@ -23,6 +23,16 @@ export class AdminSdk {
     }
     return firebase.app();
   }
+
+  async getFirebaseUser(token: string) {
+    const verifiedToken = await admin.auth().verifyIdToken(token)
+    return admin.auth().getUser(verifiedToken.uid)
+  }
+
+  async verifyBearerToken(bearer?: string) {
+    const verifiedToken = bearer && await admin.auth().verifyIdToken(bearer)
+    return !!verifiedToken
+  }
 }
 
 export default new AdminSdk();

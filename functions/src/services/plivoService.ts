@@ -12,13 +12,15 @@ class PlivoService {
     return this.client.messages.create(parameters.source, parameters.destination, parameters.message)
   }
 
-  call(parameters: { source: string; destination: string; xml: string; id_alerta: number;}) {
+  call(parameters: { source: string; destination: string; id_alerta: number}) {
     return this.client.calls.create(
       parameters.source,
       parameters.destination,
-      `${configuration.apiUrl}/plivoRecord/${parameters.id_alerta}`,
+      `${configuration.apiUrl}/PlivoAnswer/${parameters.id_alerta}`,
       {
         answerMethod: "GET",
+        hangupUrl: '',
+        hangupMethod: 'GET'
       })
   }
 }

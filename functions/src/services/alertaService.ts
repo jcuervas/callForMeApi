@@ -1,13 +1,13 @@
-import {Alerta} from "../entity/alerta";
+import {Alert} from "../entity/alert";
 import {differenceInMinutes, startOfMinute} from "date-fns";
-import {Mensaje} from "../entity/mensaje";
-import {Llamada} from "../entity/llamada";
-import {Usuario} from "../entity/usuario";
+import {Message} from "../entity/message";
+import {Call} from "../entity/call";
+import {User} from "../entity/user";
 import {UserService} from "./userService";
 import {convertToTimeZone} from "date-fns-timezone";
 
 export class AlertaService {
-  constructor(private alerta: Alerta) {}
+  constructor(private alerta: Alert) {}
 
   isProgrammed() {
     return this.alerta.estado === 'PROGRAMADA';
@@ -25,9 +25,9 @@ export class AlertaService {
   }
 
   getUsuario() {
-    const mensaje = this.alerta.mensaje as Mensaje;
-    const llamada = this.alerta.llamada as Llamada;
-    return (mensaje && mensaje.usuario || llamada && llamada.usuario) as Usuario;
+    const mensaje = this.alerta.mensaje as Message;
+    const llamada = this.alerta.llamada as Call;
+    return (mensaje && mensaje.usuario || llamada && llamada.user) as User;
   }
 
   userNotifiedInPeriod() {

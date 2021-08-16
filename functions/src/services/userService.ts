@@ -1,4 +1,4 @@
-import {Usuario} from "../entity/usuario";
+import {User} from "../entity/user";
 import {
   addBusinessDays,
   differenceInCalendarDays, differenceInCalendarMonths, differenceInCalendarWeeks, differenceInCalendarYears,
@@ -22,7 +22,7 @@ import { convertToTimeZone } from 'date-fns-timezone';
 
 export class UserService {
 
-  constructor(private user: Usuario) {}
+  constructor(private user: User) {}
 
   async saveDefaultConfiguration(connection: Connection) {
     const configuracionBaseRepository = new BaseRepository(connection, Configuracion);
