@@ -1,9 +1,17 @@
+import {MiddlewareConsumer, Module, NestModule} from "@nestjs/common";
+import {AuthMiddleware} from "../../middleware/auth.middleware";
 import {FirebaseTokensController} from "./firebaseTokens.controller";
-import {FirebaseTokensRoutes} from "./firebaseTokens.routes";
+import {TypeOrmModule} from "@nestjs/typeorm";
+import {FirebaseToken} from "./firebaseToken.entity";
+import {FirebaseTokensService} from "./firebaseTokens.service";
 
-export class FirebaseTokensModule {
-
-    constructor(app: any) {
-        new FirebaseTokensRoutes(app, new FirebaseTokensController());
-    }
+@Module({
+  imports: [TypeOrmModule.forFeature([FirebaseToken])],
+  controllers: [FirebaseTokensController],
+  providers: [FirebaseTokensService],
+})
+export class FirebaseTokensModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes('firebaseTokens')
+  }
 }

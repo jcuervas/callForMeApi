@@ -1,16 +1,13 @@
 import * as firebase from 'firebase-admin';
+import {Injectable} from "@nestjs/common";
 
-export type Parameter = 'numFreeGamesPerDay';
-const useFirebaseConfig = () => {
+export type Parameter = 'maxAlerts';
 
-    async function getConfigValue(key: Parameter): Promise<any> {
-        const template = await firebase.remoteConfig().getTemplate();
-        return template.parameters[key].defaultValue;
-    }
+@Injectable()
+export class FirebaseConfig {
 
-    return {
-      getConfigValue
-    }
+  async getConfigValue(key: Parameter): Promise<any> {
+    const template = await firebase.remoteConfig().getTemplate();
+    return template.parameters[key].defaultValue;
+  }
 }
-
-export default useFirebaseConfig();

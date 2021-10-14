@@ -1,59 +1,52 @@
-import {connect} from "../../../services/connection";
-import {Message} from "../../../entity/message";
-import {BaseRepository} from "../../../repository/repository";
-import {Call} from "../../../entity/call";
-import {Alert} from "../../../entity/alert";
-import {Answer} from "../../../entity/answer";
-import useAxios from "../../../services/useAxios";
+import {Controller, Get, Param, Post, Query} from "@nestjs/common";
+import {AlertService} from "../alert/alert.service";
+import {AnswerService} from "../answer/answer.service";
+import {Call} from "../call/call.entity";
+import axios from "axios";
+import {Answer} from "../answer/answer.entity";
 
+@Controller('plivo')
 export class PlivoController {
 
-  async getPlivoAnswer(req: any, res: any) {
-    const connection = await connect();
-    const alertaBaseRepository = new BaseRepository(connection, Alert);
-    const id = req.params.id;
-    const alerta = await alertaBaseRepository.findById(id, {relations: ['llamada']});
-    if (!alerta.llamada) return res.status(404)
-    const plivoAnswer = await useAxios.get((alerta.llamada as Call).storageUrl)
-    return res.send(plivoAnswer);
+  constructor(private alertsRepository: AlertService, private answerRepository: AnswerService) {
   }
 
-  async getPlivoCall(req: any, res: any) {
-    const connection = await connect();
-    const mensajeRepository = new BaseRepository(connection, Message);
-    const id = req.params.id;
-    const results = await mensajeRepository.findById(id);
-    return res.json(results);
+  @Get('call/answer/:id')
+  async getPlivoAnswer(@Param('id') id: string) {
+    const alert = await this.alertsRepository.getCallAlertRepository().findOne(id);
+    const url = (alert?.call as Call).storageUrl
+    return axios.get(url)
   }
 
-  async postPlivoRecord(req: any, res: any) {
-    const connection = await connect();
-    const alertaRepository = new BaseRepository(connection, Alert);
-    const respuestaRepository = new BaseRepository(connection, Answer);
-    const idAlerta = req.params.idAlerta;
-    const alerta = await alertaRepository.findById(idAlerta);
-    const llamada = alerta.llamada as Call;
-    if (!llamada) {
-      return res.status(400).send("Esta alerta no tiene llamada asignada");
+  @Get('call/:id')
+  async getPlivoCall(@Param('id') id: string) {
+    return this.alertsRepository.getCallAlertRepository().findOne(id);
+  }
+
+  @Get('message/:id')
+  async getPlivoMessage(@Param('id') id: string) {
+    return this.alertsRepository.getMessageAlertRepository().findOne(id);
+  }
+
+  @Post('call/record/:id')
+  async postPlivoRecord(@Param('id') id: string, @Query() query: any) {
+    const alert = await this.alertsRepository.getCallAlertRepository().findOneOrFail(id);
+    const call = alert?.call as Call;
+    if (!call) {
+      return "Esta alerta no tiene llamada asignada";
     }
-    const {RecordUrl, CallUUID, CallStatus, RecordingDuration, To} = req.query;
-    console.log({req, CallUUID, CallStatus})
-    const respuesta = new Answer({
+    const {RecordUrl, RecordingDuration, To} = query;
+    const answer = new Answer({
       audio_url: RecordUrl,
       texto: '',
       estado: 'NOT_LISTENED',
       destinatario: To,
-      alerta: alerta.id_alerta,
-      usuario: llamada.user,
+      alerta: alert.id,
+      usuario: call.user,
       duracion: RecordingDuration
     })
-    await respuestaRepository.create(respuesta);
-    return res.status(200).send("ok");
-  }
-
-  async postPlivoMessageAnswer(req: any, res: any) {
-    return res.status(200).send("ok");
-
+    await this.answerRepository.getRepository().save(answer);
+    return true;
   }
 
 }

@@ -1,45 +1,30 @@
-import {connect} from "../../../services/connection";
-import {BaseRepository} from "../../../repository/repository";
-import {FirebaseToken} from "../../../entity/firebaseToken";
+import {FirebaseToken} from "./firebaseToken.entity";
+import {FirebaseTokensService} from "./firebaseTokens.service";
+import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
 
+@Controller('firebaseTokens')
 export class FirebaseTokensController {
 
-    async get(req: any, res: any) {
-        const connection = await connect();
-        const firebaseTokensRepository = new BaseRepository(connection, FirebaseToken);
-        const {token, usuario, device} = req.query;
-        let firebaseTokens: FirebaseToken|FirebaseToken[] = [];
-        if (token || usuario || device) {
-            firebaseTokens = await firebaseTokensRepository.findByQuery({query: {token, usuario, device}});
-        }
-        return res.json({firebaseTokens});
-    }
+  constructor(private repository: FirebaseTokensService) {
+  }
 
-    async post(req: any, res: any) {
-        const connection = await connect();
-        const firebaseTokensRepository = new BaseRepository(connection, FirebaseToken);
-        const firebaseTokens = new FirebaseToken(req.body);
-        return res.json(await firebaseTokensRepository.create(firebaseTokens));
-    }
+  @Get('')
+  query() {
+    return this.repository.getRepository().find()
+  }
 
-    async put(req: any, res: any) {
-        const connection = await connect();
-        const firebaseTokensRepository = new BaseRepository(connection, FirebaseToken);
-        const firebaseToken = new FirebaseToken(req.body);
-        return res.json(await firebaseTokensRepository.update(firebaseToken));
-    }
+  @Post('')
+  post(@Body() body: FirebaseToken) {
+    return this.repository.getRepository().create(body)
+  }
 
-    async patch(req: any, res: any) {
-        const connection = await connect();
-        const firebaseTokensRepository = new BaseRepository(connection, FirebaseToken);
-        return res.json(await firebaseTokensRepository.patch(req.params.device, req.body));
-    }
+  @Put('id')
+  put(@Param('id') id: string, body: FirebaseToken) {
+    return this.repository.getRepository().update(id, body)
+  }
 
-    async delete(req: any, res: any) {
-        const connection = await connect();
-        const firebaseTokensRepository = new BaseRepository(connection, FirebaseToken);
-        const device = req.params.device;
-        await firebaseTokensRepository.delete(device);
-        return res.send();
-    }
+  @Delete('id')
+  delete(@Param('id') id: string) {
+    return this.repository.getRepository().delete(id)
+  }
 }

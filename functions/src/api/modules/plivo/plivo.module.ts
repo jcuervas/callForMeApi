@@ -1,9 +1,19 @@
 import {PlivoController} from "./plivo.controller";
-import {PlivoRoutes} from "./plivo.routes";
+import {MiddlewareConsumer, Module, NestModule} from "@nestjs/common";
+import {AuthMiddleware} from "../../middleware/auth.middleware";
+import {AlertService} from "../alert/alert.service";
+import {AnswerService} from "../answer/answer.service";
+import {CallService} from "../call/call.service";
+import {MessageService} from "../messages/message.service";
+import {AnswerModule} from "../answer/answer.module";
 
-export class PlivoModule {
-
-  constructor(app: any) {
-    new PlivoRoutes(app, new PlivoController());
+@Module({
+  imports: [AnswerModule],
+  controllers: [PlivoController],
+  providers: [PlivoModule, AnswerService, AlertService, CallService, MessageService],
+})
+export class PlivoModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes('plivo')
   }
 }
