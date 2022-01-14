@@ -7,7 +7,7 @@ Calls and sms sending use [https://www.plivo.com/](Plivo) so target contacts don
 This is the api that holds server logic
 
 ## Tech stack
-This api is written in typescript using nestjs and is ready to be deployed to firebase hosting
+This api is written in typescript using nestjs and is ready to be deployed to firebase hosting  
 Data is stored in a MySql database and connectivity is performed with typeOrm
 
 ## Getting started
