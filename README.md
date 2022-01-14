@@ -6,6 +6,10 @@ This app will provide users a service to perform automated and programmed calls,
 Calls and sms sending use [https://www.plivo.com/](Plivo) so target contacts don't need to have this app installed as communication uses standar operator calls.
 This is the api that holds server logic
 
+## Tech stack
+This api is written in typescript using nestjs and is ready to be deployed to firebase hosting
+Data is stored in a MySql database and connectivity is performed with typeOrm
+
 ## Getting started
 1. Install dependencies with npm or yarn
 2. Create a firebase project and enable hosting and functions services
