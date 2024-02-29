@@ -3,21 +3,21 @@
 ## Tech Stack
 jcuervas/callForMeApi is built on the following main stack:
 
-- [Stripe](https://stripe.com) – Payment Services
-- [Firebase](https://firebase.google.com/) – Realtime Backend / API
-- [Plivo](https://www.plivo.com/) – Voice and SMS
-- [MySQL](http://www.mysql.com) – Databases
-- [ExpressJS](http://expressjs.com/) – Microframeworks (Backend)
 - [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) – Languages
-- [TypeScript](http://www.typescriptlang.org) – Languages
 - [Nunjucks](https://mozilla.github.io/nunjucks/) – Templating Languages & Extensions
+- [TypeScript](http://www.typescriptlang.org) – Languages
+- [ExpressJS](http://expressjs.com/) – Microframeworks (Backend)
+- [NestJS](nestjs.com) – Frameworks (Full Stack)
 - [RxJS](http://reactivex.io/rxjs/) – Concurrency Frameworks
-- [Nodemailer](http://www.nodemailer.com/) – Transactional Email
+- [TypeORM](https://typeorm.io/) – Microframeworks (Backend)
+- [Firebase](https://firebase.google.com/) – Realtime Backend / API
+- [MySQL](http://www.mysql.com) – Databases
 - [ESLint](http://eslint.org/) – Code Review
+- [Plivo](https://www.plivo.com/) – Voice and SMS
+- [Stripe](https://stripe.com) – Payment Services
+- [Nodemailer](http://www.nodemailer.com/) – Transactional Email
 - [Shell](https://en.wikipedia.org/wiki/Shell_script) – Shells
 - [axios](https://github.com/mzabriskie/axios) – Javascript Utilities & Libraries
-- [TypeORM](https://typeorm.io/) – Microframeworks (Backend)
-- [NestJS](nestjs.com) – Frameworks (Full Stack)
 - [date-fns](https://date-fns.org/) – Javascript Utilities & Libraries
 
 Full tech stack [here](/techstack.md)
@@ -28,21 +28,21 @@ Full tech stack [here](/techstack.md)
 ## Tech Stack
 jcuervas/callForMeApi is built on the following main stack:
 
-- <img width='25' height='25' src='https://img.stackshare.io/service/97/eW6tXeq3.png' alt='Stripe'/> [Stripe](https://stripe.com) – Payment Services
-- <img width='25' height='25' src='https://img.stackshare.io/service/116/cZLxNFZS.jpg' alt='Firebase'/> [Firebase](https://firebase.google.com/) – Realtime Backend / API
-- <img width='25' height='25' src='https://img.stackshare.io/service/131/PjSy9eTC_400x400.png' alt='Plivo'/> [Plivo](https://www.plivo.com/) – Voice and SMS
-- <img width='25' height='25' src='https://img.stackshare.io/service/1025/logo-mysql-170x170.png' alt='MySQL'/> [MySQL](http://www.mysql.com) – Databases
-- <img width='25' height='25' src='https://img.stackshare.io/service/1163/hashtag.png' alt='ExpressJS'/> [ExpressJS](http://expressjs.com/) – Microframeworks (Backend)
 - <img width='25' height='25' src='https://img.stackshare.io/service/1209/javascript.jpeg' alt='JavaScript'/> [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) – Languages
-- <img width='25' height='25' src='https://img.stackshare.io/service/1612/bynNY5dJ.jpg' alt='TypeScript'/> [TypeScript](http://www.typescriptlang.org) – Languages
 - <img width='25' height='25' src='https://img.stackshare.io/service/1637/Microsoft.VisualStudio.Services.Icons.Default' alt='Nunjucks'/> [Nunjucks](https://mozilla.github.io/nunjucks/) – Templating Languages & Extensions
+- <img width='25' height='25' src='https://img.stackshare.io/service/1612/bynNY5dJ.jpg' alt='TypeScript'/> [TypeScript](http://www.typescriptlang.org) – Languages
+- <img width='25' height='25' src='https://img.stackshare.io/service/1163/hashtag.png' alt='ExpressJS'/> [ExpressJS](http://expressjs.com/) – Microframeworks (Backend)
+- <img width='25' height='25' src='https://img.stackshare.io/service/8747/4zsOyxko_400x400.jpg' alt='NestJS'/> [NestJS](nestjs.com) – Frameworks (Full Stack)
 - <img width='25' height='25' src='https://img.stackshare.io/service/1796/984368.png' alt='RxJS'/> [RxJS](http://reactivex.io/rxjs/) – Concurrency Frameworks
-- <img width='25' height='25' src='https://img.stackshare.io/service/2862/qr2-jCLr.jpg' alt='Nodemailer'/> [Nodemailer](http://www.nodemailer.com/) – Transactional Email
+- <img width='25' height='25' src='https://img.stackshare.io/service/7419/20165699.png' alt='TypeORM'/> [TypeORM](https://typeorm.io/) – Microframeworks (Backend)
+- <img width='25' height='25' src='https://img.stackshare.io/service/116/cZLxNFZS.jpg' alt='Firebase'/> [Firebase](https://firebase.google.com/) – Realtime Backend / API
+- <img width='25' height='25' src='https://img.stackshare.io/service/1025/logo-mysql-170x170.png' alt='MySQL'/> [MySQL](http://www.mysql.com) – Databases
 - <img width='25' height='25' src='https://img.stackshare.io/service/3337/Q4L7Jncy.jpg' alt='ESLint'/> [ESLint](http://eslint.org/) – Code Review
+- <img width='25' height='25' src='https://img.stackshare.io/service/131/PjSy9eTC_400x400.png' alt='Plivo'/> [Plivo](https://www.plivo.com/) – Voice and SMS
+- <img width='25' height='25' src='https://img.stackshare.io/service/97/eW6tXeq3.png' alt='Stripe'/> [Stripe](https://stripe.com) – Payment Services
+- <img width='25' height='25' src='https://img.stackshare.io/service/2862/qr2-jCLr.jpg' alt='Nodemailer'/> [Nodemailer](http://www.nodemailer.com/) – Transactional Email
 - <img width='25' height='25' src='https://img.stackshare.io/service/4631/default_c2062d40130562bdc836c13dbca02d318205a962.png' alt='Shell'/> [Shell](https://en.wikipedia.org/wiki/Shell_script) – Shells
 - <img width='25' height='25' src='https://img.stackshare.io/no-img-open-source.png' alt='axios'/> [axios](https://github.com/mzabriskie/axios) – Javascript Utilities & Libraries
-- <img width='25' height='25' src='https://img.stackshare.io/service/7419/20165699.png' alt='TypeORM'/> [TypeORM](https://typeorm.io/) – Microframeworks (Backend)
-- <img width='25' height='25' src='https://img.stackshare.io/service/8747/4zsOyxko_400x400.jpg' alt='NestJS'/> [NestJS](nestjs.com) – Frameworks (Full Stack)
 - <img width='25' height='25' src='https://img.stackshare.io/service/10865/default_5551fb8853689f607a2bc0d5a09355d5a3d52bf0.png' alt='date-fns'/> [date-fns](https://date-fns.org/) – Javascript Utilities & Libraries
 
 Full tech stack [here](/techstack.md)
@@ -54,7 +54,7 @@ Full tech stack [here](/techstack.md)
 # Tech Stack File
 ![](https://img.stackshare.io/repo.svg "repo") [jcuervas/callForMeApi](https://github.com/jcuervas/callForMeApi)![](https://img.stackshare.io/public_badge.svg "public")
 <br/><br/>
-|35<br/>Tools used|02/01/24 <br/>Report generated|
+|35<br/>Tools used|02/29/24 <br/>Report generated|
 |------|------|
 </div>
 
